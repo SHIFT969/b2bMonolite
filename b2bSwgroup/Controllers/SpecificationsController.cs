@@ -91,7 +91,7 @@ namespace b2bSwgroup.Controllers
             var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
 
             Specification specification = new Specification();
-            db.Specifications.Add(specification);            
+            db.Specifications.Add(specification);
             var position = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
             specification.PositionsCatalog.Add(position);
             specification.Name = "Новая спецификация";
@@ -100,9 +100,18 @@ namespace b2bSwgroup.Controllers
 
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
-        
+
             //ViewBag.CustomerId = new SelectList(db.Organizations, "Id", "Name", specification.CustomerId);
             //return View(specification);
+        }
+
+
+        public async Task AddPosition(int idSpec, int idPos)
+        {
+            var spec = await db.Specifications.FirstOrDefaultAsync(s => s.Id == idSpec);
+            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);
+            spec.PositionsCatalog.Add(posit);
+            await db.SaveChangesAsync();
         }
 
         // GET: Specifications/Edit/5

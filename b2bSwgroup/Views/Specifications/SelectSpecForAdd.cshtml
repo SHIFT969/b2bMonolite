@@ -15,7 +15,7 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Выбрать", "","", new { id = item.Id })
+                        @Ajax.ActionLink("Выбрать", "AddPosition", new { idSpec = item.Id, idPos = @ViewBag.idPosition }, new AjaxOptions {  } )
                     </td>
                 </tr>
             }
@@ -24,4 +24,8 @@
         @Html.ActionLink("Или добавить в новую спецификацию", "Create", new { idPosition = @ViewBag.idPosition })
     </div>
 </div>
+
+<script>
+
+</script>
 
