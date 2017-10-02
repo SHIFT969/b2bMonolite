@@ -51,7 +51,7 @@ namespace b2bSwgroup.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specification specification = await db.Specifications.FindAsync(id);
+            Specification specification = await db.Specifications.Include(s=>s.PositionsCatalog).FirstOrDefaultAsync(i=>i.Id==id);
             if (specification == null)
             {
                 return HttpNotFound();
@@ -89,13 +89,15 @@ namespace b2bSwgroup.Controllers
         public async Task<ActionResult> Create(int idPosition)
         {
             var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+
             Specification specification = new Specification();
             db.Specifications.Add(specification);            
             var position = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
             specification.PositionsCatalog.Add(position);
             specification.Name = "Новая спецификация";
-            var appUser = db.Users.FirstOrDefault(u => u.Id == currentUser.Id);
-            specification.ApplicationUser = appUser;
+
+            specification.ApplicationUserId = currentUser.Id;
+
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         

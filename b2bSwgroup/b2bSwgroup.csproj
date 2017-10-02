@@ -273,11 +273,11 @@
     <Content Include="Views\Distributors\Edit.cshtml" />
     <Content Include="Views\Distributors\Index.cshtml" />
     <Content Include="Views\Specifications\Create.cshtml" />
-    <Content Include="Views\Specifications\Details.cshtml" />
-    <Content Include="Views\Specifications\Edit.cshtml" />
     <Content Include="Views\Specifications\Index.cshtml" />
     <Content Include="Views\Specifications\SelectSpecForAdd.cshtml" />
     <Content Include="Views\Specifications\Delete.cshtml" />
+    <Content Include="Views\Specifications\Edit.cshtml" />
+    <Content Include="Views\Specifications\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

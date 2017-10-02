@@ -1,16 +1,17 @@
 ﻿@model b2bSwgroup.Models.Specification
 
-@{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Main.cshtml";
-}
-
-<h2>Details</h2>
-
 <div>
     <h4>Specification</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.UserName)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Customer.Name)
         </dt>
@@ -20,22 +21,24 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CustomerApplUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CustomerApplUserId)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
     </dl>
+    <table>
+        @foreach (var position in Model.PositionsCatalog)
+        {
+            <tr>
+                <td>@position.PartNumber</td>
+                <td>@position.Name</td>
+            </tr>
+        }
+        
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

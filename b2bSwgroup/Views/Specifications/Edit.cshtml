@@ -1,12 +1,5 @@
 ﻿@model b2bSwgroup.Models.Specification
 
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Main.cshtml";
-}
-
-<h2>Edit</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -18,9 +11,17 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ApplicationUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ApplicationUserId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApplicationUserId, "ApplicationUserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ApplicationUserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ApplicationUserId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -30,14 +31,6 @@
             <div class="col-md-10">
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerApplUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerApplUserId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerApplUserId, "", new { @class = "text-danger" })
             </div>
         </div>
 
