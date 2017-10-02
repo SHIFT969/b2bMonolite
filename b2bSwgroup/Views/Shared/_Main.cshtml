@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+
+</head>
+<body>
+ 
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
+                        @if (User.IsInRole("Distributor"))
+                        {
+                            <li>@Html.ActionLink("Мой каталог", "", "")</li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li>@Html.ActionLink("Мои спецификации", "Index", "Specifications")</li>
+                        }
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Роли", "Index", "Roles")</li>
+                            <li>@Html.ActionLink("Управление пользователями", "Index", "Admin")</li>
+                            <li>@Html.ActionLink("Дистрибьютеры", "Index", "Distributors")</li>
+                            <li>@Html.ActionLink("Клиенты", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("Справочник валют", "Index", "Currencies")</li>
+                            <li>@Html.ActionLink("Справочник категорий", "Index", "Categories")</li>
+                        }
+                        @User.Identity.Name
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <div>
+        @RenderBody()    
+    </div>
+</body>
+</html>

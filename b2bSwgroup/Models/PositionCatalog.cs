@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+
+namespace b2bSwgroup.Models
+{
+    public class PositionCatalog
+    {
+        public int Id { get; set; }
+        [Display(Name="Парт номер")]
+        public string PartNumber { get; set; }
+        [Display(Name="Наименование")]
+        public string Name { get; set; }
+        [Display(Name="Стоимость")]
+        public double Price { get; set; }
+        [Display(Name = "Валюта")]
+        public int? CurrencyId { get; set; }        
+        public Currency Currency { get; set; }
+        [Display(Name = "Категория")]
+        public int? CategoryId { get; set; }        
+        public Category Category { get; set; }
+
+        [Display(Name = "Дистрибьютер")]
+        public int? DistributorId { get; set; }        
+        public Distributor Distributor { get; set; }
+        public string DistributorApplicationUserId { get; set; }
+        public DistributorApplicationUser DistributorApplicationUser { get; set; }
+        public ICollection<Specification> Specifications { get; set; }
+
+        public PositionCatalog()
+        {
+            Specifications = new List<Specification>();
+        }
+    }
+}

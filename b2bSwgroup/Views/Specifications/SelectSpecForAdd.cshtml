@@ -1,0 +1,27 @@
+﻿@model IEnumerable<b2bSwgroup.Models.Specification>
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Выберите спецификацию</h4>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Выбрать", "","", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    
+        @Html.ActionLink("Или добавить в новую спецификацию", "Create", new { idPosition = @ViewBag.idPosition })
+    </div>
+</div>
+

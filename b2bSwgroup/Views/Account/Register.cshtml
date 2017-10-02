@@ -1,0 +1,52 @@
+﻿@model b2bSwgroup.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Регистрация";
+}
+
+<h2>Регистрация</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>Регистрация пользователя</h4>
+        <hr />
+        @Html.ValidationSummary(false)
+        <div>
+            Роль
+            <div>
+                @Html.DropDownListFor(model => model.userType,
+            new SelectList(Enum.GetNames(typeof(b2bSwgroup.Models.UserType))))
+            </div>
+        </div>
+
+        <div>
+            Электронный адрес
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+        <div>
+            Пароль
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Подтвердить пароль
+            <div>
+                @Html.EditorFor(model => model.PasswordConfirm)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Зарегистрировать" />
+            </div>
+        </div>
+    </div>
+}

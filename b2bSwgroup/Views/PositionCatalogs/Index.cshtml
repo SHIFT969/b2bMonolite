@@ -1,0 +1,91 @@
+﻿@model IEnumerable<b2bSwgroup.Models.PositionCatalog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+<script src="~/Scripts/jquery-1.9.1.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<h2>Каталог</h2>
+<p>
+    @Html.ActionLink("Создать", "Create")
+</p>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency.IsoCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Distributor.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PartNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DistributorApplicationUserId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.IsoCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Distributor.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DistributorApplicationUser.UserName)
+        </td>
+        <td>         
+            @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "addToSpec" })           
+        </td>
+    </tr>
+}
+
+</table>
+
+<script>
+    $('.addToSpec').click(function (e)
+    {
+        e.preventDefault();
+        $.ajax({
+            url: this.href,
+            success: function (result)
+            {
+                $('#dialogContent').html(result);
+                $('#modDialog').modal('show');
+            },
+            error: function()
+            {
+                alert("не удалось получить спецификации");
+            }
+            });
+    }); 
+</script>

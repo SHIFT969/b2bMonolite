@@ -1,0 +1,32 @@
+﻿@model b2bSwgroup.Models.UserAdmin
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактирование пользователя</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.User.Id)
+        @Html.EditorFor(model=>model.User.UserName)
+        @Html.EditorFor(model => model.User.Email)
+
+        <table>
+            <tbody>
+                @foreach (var role in ViewBag.AllRoles)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBox("RoleId",Model.Roles.Contains(role as b2bSwgroup.Models.ApplicationRole),new { @value = role.Id } )                           
+                        </td>
+                        <td>
+                            @role.Description
+                        </td>                        
+                    </tr>                    
+                }
+            </tbody>
+        </table>  
+                
+        <button type="submit">Сохранить</button>
+    </div>
+}
