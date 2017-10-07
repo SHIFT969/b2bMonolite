@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\DistributorsController.cs" />
     <Compile Include="Controllers\PositionCatalogsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -222,6 +223,14 @@
     <Compile Include="Migrations\201710021317343_b2b9.cs" />
     <Compile Include="Migrations\201710021317343_b2b9.Designer.cs">
       <DependentUpon>201710021317343_b2b9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710061021221_b2b10.cs" />
+    <Compile Include="Migrations\201710061021221_b2b10.Designer.cs">
+      <DependentUpon>201710061021221_b2b10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710061126304_b2b11.cs" />
+    <Compile Include="Migrations\201710061126304_b2b11.Designer.cs">
+      <DependentUpon>201710061126304_b2b11.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
@@ -283,6 +292,14 @@
     <Content Include="Views\Specifications\Details.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\PositionCatalogs\MyPositions.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\PositionCatalogs\Search.cshtml" />
+    <Content Include="Views\Specifications\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -327,6 +344,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710021317343_b2b9.resx">
       <DependentUpon>201710021317343_b2b9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710061021221_b2b10.resx">
+      <DependentUpon>201710061021221_b2b10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710061126304_b2b11.resx">
+      <DependentUpon>201710061126304_b2b11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

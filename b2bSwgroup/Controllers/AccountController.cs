@@ -124,7 +124,7 @@ namespace b2bSwgroup.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index","PositionCatalogs");
         }
 
       

@@ -33,19 +33,22 @@ namespace b2bSwgroup.Controllers
             ///Lis
             List<UserAdmin> usersAdmin = new List<UserAdmin>();
             var users = UserManager.Users.ToList();
-            using (ApplicationContext context = new ApplicationContext())
+            
+            foreach(var user in users)
             {
-                foreach(var user in users)
+                if (user.OrganizationId != null)
                 {
-                    var userAdmin = new UserAdmin() { User=user };
-                    foreach(var role in user.Roles)
-                    {
-                        var test = RoleManager.FindByIdAsync(role.RoleId).Result;
-                        userAdmin.Roles.Add(test);
-                    }
-                    usersAdmin.Add(userAdmin);
+                    user.Organization = db.Organizations.FirstOrDefault(o=>o.Id==user.OrganizationId);
+                }                
+                var userAdmin = new UserAdmin() { User=user };
+                foreach(var role in user.Roles)
+                {
+                    var test = RoleManager.FindByIdAsync(role.RoleId).Result;
+                    userAdmin.Roles.Add(test);
                 }
-            }                
+                usersAdmin.Add(userAdmin);
+            }
+                        
             return View(usersAdmin);
         }
         [HttpGet]
@@ -59,6 +62,7 @@ namespace b2bSwgroup.Controllers
                 userAdmin.Roles.Add(test);                
             }
             ViewBag.AllRoles = RoleManager.Roles;
+            ViewBag.OrganizationId = new SelectList(db.Organizations, "Id", "Name", userAdmin.User.OrganizationId);
             var a= user is DistributorApplicationUser ? 0 : 1; //user is DistributorApplicationUser ? new SelectList(db.Distributors, "Id", "Name") : new SelectList(db.Customers, "Id", "Name");
             return View(userAdmin);
         }
@@ -81,6 +85,9 @@ namespace b2bSwgroup.Controllers
             }
             await UserManager.AddToRolesAsync(model.User.Id, rolesNameForAdd.ToArray());            
             await UserManager.RemoveFromRolesAsync(model.User.Id,rolesNameForRemove.ToArray());
+            var userEdit = db.Users.FirstOrDefault(i => i.Id == model.User.Id);
+            userEdit.OrganizationId = model.OrganizationId;
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

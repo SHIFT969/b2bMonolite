@@ -11,6 +11,7 @@ namespace b2bSwgroup.Models
         public IdentityUser  User { get; set; }
         
         public List<string> RoleId { get; set; }
+        public int? OrganizationId { get; set; }
         public Organization Organization { get; set; }
         public EditUserView()
         {

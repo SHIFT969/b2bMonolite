@@ -15,7 +15,7 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Ajax.ActionLink("Выбрать", "AddPosition", new { idSpec = item.Id, idPos = @ViewBag.idPosition }, new AjaxOptions {  } )
+                        @Ajax.ActionLink("Выбрать", "AddPosition", new { idSpec = item.Id, idPos = @ViewBag.idPosition }, new AjaxOptions { OnSuccess= "successAddPosition", OnFailure= "failAddPosition" } )
                     </td>
                 </tr>
             }
@@ -26,6 +26,14 @@
 </div>
 
 <script>
+    function successAddPosition()
+    {
+        alert("Позиция добавлена");
+    }
 
+    function failAddPosition()
+    {
+        alert("Ошибка добавления позиции");
+    }
 </script>
 

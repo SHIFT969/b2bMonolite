@@ -10,6 +10,13 @@
         @Html.HiddenFor(model => model.User.Id)
         @Html.EditorFor(model=>model.User.UserName)
         @Html.EditorFor(model => model.User.Email)
+        <div class="form-group">
+            @Html.LabelFor(model => model.User.OrganizationId, "OrganizationId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OrganizationId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.User.OrganizationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <table>
             <tbody>

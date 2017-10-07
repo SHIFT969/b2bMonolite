@@ -19,6 +19,10 @@ namespace b2bSwgroup.Models
         public ICollection<PositionCatalog> PositionsCatalog { get; set; }
         //public int? CustomerApplUserId { get; set; }
         //public CustomerApplUser CustomerApplUser { get; set; }
+        [Display(Name="Комментарий")]
+        public string Comment { get; set; }
+        [Display(Name ="Заказчик")]
+        public string Zakazchik { get; set; }
 
         public Specification()
         {

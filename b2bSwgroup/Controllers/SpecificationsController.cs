@@ -27,7 +27,19 @@ namespace b2bSwgroup.Controllers
         // GET: Specifications
         public async Task<ActionResult> Index()
         {
-            var specifications = await db.Specifications.Include(s => s.Customer).Include(c=>c.PositionsCatalog).Include(s=>s.ApplicationUser).ToListAsync();
+            ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+
+            var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
+            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsCatalog).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).ToListAsync();
+            return View(specifications);
+        }
+
+        public async Task<ActionResult> Search(string key)
+        {
+            ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+
+            var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
+            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsCatalog).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).Where(z=>z.Zakazchik.Contains(key)).ToListAsync();
             return View(specifications);
         }
 
@@ -97,7 +109,7 @@ namespace b2bSwgroup.Controllers
             specification.Name = "Новая спецификация";
 
             specification.ApplicationUserId = currentUser.Id;
-
+            specification.CustomerId = currentUser.OrganizationId;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
 
@@ -105,13 +117,23 @@ namespace b2bSwgroup.Controllers
             //return View(specification);
         }
 
-
-        public async Task AddPosition(int idSpec, int idPos)
+        //Метод добавляет позицию в спецификацию
+        public async Task<string> AddPosition(int idSpec, int idPos)
         {
             var spec = await db.Specifications.FirstOrDefaultAsync(s => s.Id == idSpec);
             var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);
             spec.PositionsCatalog.Add(posit);
             await db.SaveChangesAsync();
+            return "Позиция добавлена";
+        }
+        //метод удаляет позицию из спецификации
+        public async Task<string> DeletePosition(int idSpec, int idPos)
+        {
+            var spec = await db.Specifications.Include(p=>p.PositionsCatalog).FirstOrDefaultAsync(s => s.Id == idSpec);
+            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p => p.Id == idPos);
+            spec.PositionsCatalog.Remove(posit);
+            await db.SaveChangesAsync();
+            return "Позиция удалена";
         }
 
         // GET: Specifications/Edit/5
@@ -121,12 +143,12 @@ namespace b2bSwgroup.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specification specification = await db.Specifications.FindAsync(id);
+            Specification specification = await db.Specifications.Include(s => s.PositionsCatalog).FirstOrDefaultAsync(i => i.Id == id);
             if (specification == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Organizations, "Id", "Name", specification.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", specification.CustomerId);
             return View(specification);
         }
 
@@ -135,7 +157,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ApplicationUserId,CustomerId,CustomerApplUserId")] Specification specification)
+        public async Task<ActionResult> Edit(/*[Bind(Include = "Id,ApplicationUserId,CustomerId,CustomerApplUserId")]*/ Specification specification)
         {
             if (ModelState.IsValid)
             {

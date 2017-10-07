@@ -161,3 +161,5 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.M
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csproj.GenerateResource.Cache
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.dll
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.pdb
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b10.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b11.resources

@@ -9,6 +9,7 @@ namespace b2bSwgroup.Models
     {
         public ApplicationUser User { get; set; }
         public List<ApplicationRole> Roles { get; set; }
+      
        
         public UserAdmin()
         {

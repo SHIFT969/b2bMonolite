@@ -27,8 +27,16 @@ namespace b2bSwgroup.Controllers
         public async Task<ActionResult> Index()
         {
             var positionscatalog = db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor);
+            //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
             return View(await positionscatalog.ToListAsync());
         }
+        public async Task<ActionResult> Search(string key)
+        {
+            var positionscatalog = db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Where(n=>n.Name.Contains(key));
+            //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
+            return View(await positionscatalog.ToListAsync());
+        }
+
 
         // GET: PositionCatalogs/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -148,6 +156,15 @@ namespace b2bSwgroup.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public async Task<ActionResult> MyPositions()
+        {
+            ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            
+            var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
+            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a=>a.DistributorId==myCompany.Id).ToListAsync();
+            return View(positionscatalog);
         }
     }
 }
