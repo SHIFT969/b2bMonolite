@@ -4,11 +4,14 @@
     ViewBag.Title = "Мой справочник";
     Layout = "~/Views/Shared/_Main.cshtml";
 }
-
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <h2>Каталог моей компании</h2>
 
 <p>
     @Html.ActionLink("Создать позицию", "Create")
+    @Html.ActionLink("Загрузить каталог из excel", "UploadExcel",null, new { @class = "modalupload" })
 </p>
 <table class="table">
     <tr>
@@ -75,3 +78,23 @@
 }
 
 </table>
+
+
+<script>
+    $('.modalupload').click(function (e)
+    {
+        e.preventDefault();
+        $.ajax({
+            url: this.href,
+            success: function (result) {
+                //$('#modDialog').modal('hide');
+                //alert("ффф");
+                $('#dialogContent').html(result);
+                $('#modDialog').modal('show');
+            },
+            error: function () {
+                alert("Ошибка");
+            }
+        });
+    });
+</script>

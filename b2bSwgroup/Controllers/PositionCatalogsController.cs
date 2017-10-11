@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using b2bSwgroup.Models;
 using Microsoft.AspNet.Identity.Owin;
+using Spire.Xls;
 
 namespace b2bSwgroup.Controllers
 {
@@ -165,6 +166,52 @@ namespace b2bSwgroup.Controllers
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
             var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a => a.DistributorId == myCompany.Id).ToListAsync();
             return View(positionscatalog);
+        }
+        public ActionResult UploadExcel()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> UploadExcel(FormCollection formCollection)
+        {
+
+            //var currencyExcelList = new Dictionary<string, string>();
+            //currencyExcelList.Add("RUB", "6717f5b5-50f1-e411-80f2-c4346bad2214");
+            //currencyExcelList.Add("USD", "ee9e8e27-5e42-e511-8114-c4346bacce50");
+            //currencyExcelList.Add("KZT", "db8bbc3b-bd49-e611-80d6-24b6fdf8545c");
+            //currencyExcelList.Add("EUR", "4be2906f-6509-e711-80dd-24b6fdf8545c");
+            //currencyExcelList.Add("", "be604f9c-4319-e711-80dd-24b6fdf8545c");
+
+            //ViewBag.currencyExcelList = currencyExcelList;
+            List<PositionCatalog> catalog = new List<PositionCatalog>();
+            foreach (string file in Request.Files)
+            {
+                var upload = Request.Files[file];
+                if (upload != null)
+                {
+                    Workbook book = new Workbook();
+                    book.LoadFromStream(upload.InputStream);
+                    Worksheet workSheet = book.Worksheets[0];
+
+                    for (int i = 1; i < workSheet.Rows.Length; i++)
+                    {
+                        var position = new PositionCatalog()
+                        {
+                            PartNumber = workSheet.Rows[i].Cells[0].Value,
+                            //CategoryId = 
+                            //workSheet.Rows[i].Cells[1].Value,
+                            Name = workSheet.Rows[i].Cells[2].Value,
+                            Price = double.Parse(workSheet.Rows[i].Cells[3].Value)
+                        };
+                        catalog.Add(position);
+                    }
+                    db.Positionscatalog.AddRange(catalog);
+                    await db.SaveChangesAsync();                    
+                    book.Dispose();
+                    workSheet.Dispose();
+                }
+            }
+            return RedirectToAction("MyPositions");
         }
     }
 }

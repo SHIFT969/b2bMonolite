@@ -365,6 +365,7 @@
     <Content Include="Views\CrossCategories\Details.cshtml" />
     <Content Include="Views\CrossCategories\Edit.cshtml" />
     <Content Include="Views\CrossCategories\Index.cshtml" />
+    <Content Include="Views\PositionCatalogs\UploadExcel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
