@@ -16,7 +16,7 @@ namespace b2bSwgroup.Models
         public ApplicationUser ApplicationUser { get; set; }
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public ICollection<PositionCatalog> PositionsCatalog { get; set; }
+        public ICollection<PositionSpecification> PositionsSpecification { get; set; }
         //public int? CustomerApplUserId { get; set; }
         //public CustomerApplUser CustomerApplUser { get; set; }
         [Display(Name="Комментарий")]
@@ -26,7 +26,7 @@ namespace b2bSwgroup.Models
 
         public Specification()
         {
-            PositionsCatalog = new List<PositionCatalog>();
+            PositionsSpecification = new List<PositionSpecification>();
         }
     }
 }

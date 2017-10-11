@@ -11,12 +11,14 @@ namespace b2bSwgroup.Models
     {
         public ApplicationContext() : base("b2bDb1") { }
         public DbSet<PositionCatalog> Positionscatalog { get; set; }
+        public DbSet<PositionSpecification> PositionsSpecification { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Distributor> Distributors { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Specification> Specifications { get; set; }
+        public DbSet<CrossCategory> CrossCategories { get; set; }
         //public DbSet<DistributorApplicationUser> DistributorApplicationUsers { get; }
         //public DbSet<CustomerApplUser> CustomerApplUsers { get; }
 

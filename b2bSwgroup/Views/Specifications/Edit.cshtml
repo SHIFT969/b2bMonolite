@@ -60,12 +60,13 @@
 
 <h4>Позиции по спецификации</h4>
 <table class="table">
-    @foreach (var position in Model.PositionsCatalog)
+    @foreach (var position in Model.PositionsSpecification)
     {
         <tr>
             <td>@position.PartNumber</td>
             <td>@position.Name</td>
-            <td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>
+            <td>@position.Price</td>
+            @*<td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>*@
         </tr>
     }
 

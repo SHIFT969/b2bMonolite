@@ -15,21 +15,18 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Ajax.ActionLink("Выбрать", "AddPosition", new { idSpec = item.Id, idPos = @ViewBag.idPosition }, new AjaxOptions { OnSuccess= "successAddPosition", OnFailure= "failAddPosition" } )
+                        @Html.ActionLink("Выбрать", "AddPosition",  new { idSpec = item.Id, idPos = @ViewBag.idPosition }, new { @class = "modalindex" })
                     </td>
                 </tr>
             }
         </table>
     
-        @Html.ActionLink("Или добавить в новую спецификацию", "Create", new { idPosition = @ViewBag.idPosition })
+        @Html.ActionLink("Или добавить в новую спецификацию", "Create", new { idPosition = @ViewBag.idPosition }, new { @class = "modalindex" })
     </div>
 </div>
 
 <script>
-    function successAddPosition()
-    {
-        alert("Позиция добавлена");
-    }
+   
 
     function failAddPosition()
     {

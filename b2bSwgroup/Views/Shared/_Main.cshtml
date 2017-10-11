@@ -4,23 +4,40 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title></title>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    
 </head>
 <body>
- 
+@if (User.Identity.IsAuthenticated == true)
+{
+    if (!User.IsInRole("ComfirmedUser") && !User.IsInRole("Admin"))
+    {        
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <p id="confirmMessage"></p>
+        </div>
+        @*<div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>
+        </div>*@
+    }
+}
+
+   
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse row">
                     
                     <ul id="menu" class="nav navbar-nav col-lg-10">
-                        <li class="active">@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
+                        <li>@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
                         @if (User.IsInRole("Distributor"))
                         {
                             <li>@Html.ActionLink("Мой каталог", "MyPositions", "PositionCatalogs")</li>
+                            <li>@Html.ActionLink("Сопоставление категорий", "Index", "CrossCategories")</li>
                         }
                         @if (User.IsInRole("User"))
                         {
@@ -54,7 +71,7 @@
                 
             </div>
         </nav>
-
+    
     <div>
         @RenderBody()    
     </div>
@@ -65,14 +82,28 @@
     $(window).ready(function () {
         $('#menu li').each(function ()
         {
-            var a = $(this).find('a');
-            //console.dir(a.first());
-            //alert(a.attr("baseURI"));
-            if(a.attr("baseURI")===location.href)
+            var a = $(this).find('a:first');
+            if(a.prop("href") === location.href)
             {
-                alert(location.href);
-               
+                $(this).addClass("active");
             }
+
+            var message = $("#confirmMessage");
+            if(randomInteger(1,2)===1)
+            {
+                message.text("Подтвердите компанию для доступа к расширенному функционалу. Подтвержденные компании имеют возможность указать Заказчика в Спецификации");
+            }
+            else
+            {
+                message.text("Подтвердите компанию для доступа к расширенному функционалу. Пользователи подтвержденных компаний видят историю создания Спецификаций");
+            }
+
         });
     });
+    function randomInteger(min, max) {
+        var rand = min - 0.5 + Math.random() * (max - min + 1)
+        rand = Math.round(rand);
+        return rand;
+    }
+   
 </script>

@@ -9,7 +9,7 @@ namespace b2bSwgroup.Models
     public class PositionCatalog
     {
         public int Id { get; set; }
-        [Display(Name="Парт номер")]
+        [Display(Name="P/N")]
         public string PartNumber { get; set; }
         [Display(Name="Наименование")]
         public string Name { get; set; }
@@ -21,17 +21,12 @@ namespace b2bSwgroup.Models
         [Display(Name = "Категория")]
         public int? CategoryId { get; set; }        
         public Category Category { get; set; }
-
+        [Display(Name="Количество")]
+        public int Quantity { get; set; }
         [Display(Name = "Дистрибьютер")]
         public int? DistributorId { get; set; }        
         public Distributor Distributor { get; set; }
         public string DistributorApplicationUserId { get; set; }
         public DistributorApplicationUser DistributorApplicationUser { get; set; }
-        public ICollection<Specification> Specifications { get; set; }
-
-        public PositionCatalog()
-        {
-            Specifications = new List<Specification>();
-        }
     }
 }

@@ -1,0 +1,12 @@
+﻿@model b2bSwgroup.Models.Specification
+
+<div class="modal-content">
+    <div class="modal-header">
+        @*<button class="close" data-dismiss="modal" area-hidden="true">X</button>*@
+        <h3>Поздравляем, позиция добавлена</h3>
+    </div>
+    <div class="modal-body">
+        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Продолжить просмотр" />
+        @Html.ActionLink("Перейти к спецификации", "Edit", "Specifications", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    </div>
+</div>

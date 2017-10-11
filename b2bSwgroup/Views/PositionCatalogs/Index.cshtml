@@ -20,9 +20,11 @@
     </div>    
 </div>
 <br />
+
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
+
 <div id="positionsContainer">
     <table class="table">
         <tr>
@@ -34,10 +36,13 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Distributor.Name)
+                Поставщик
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -59,10 +64,20 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Distributor.Name)
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.DisplayFor(modelItem => item.Distributor.Name)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -71,13 +86,9 @@
                     @Html.DisplayFor(modelItem => item.Currency.IsoCode)
                 </td>
                 <td>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {
-                        @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "addToSpec" })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                        @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
                     }
 
                 </td>
@@ -89,19 +100,22 @@
 
 
 <script>
-    $('.addToSpec').click(function (e)
+    $('body').on('click', '.modalindex', function (e)
+    //$('.modalindex').click(function (e)
     {
         e.preventDefault();
         $.ajax({
             url: this.href,
             success: function (result)
             {
+                //$('#modDialog').modal('hide');
+                //alert("ффф");
                 $('#dialogContent').html(result);
                 $('#modDialog').modal('show');
             },
             error: function()
             {
-                alert("не удалось получить спецификации");
+                alert("Ошибка");
             }
             });
     });

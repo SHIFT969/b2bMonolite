@@ -9,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using b2bSwgroup.Models;
 using Microsoft.AspNet.Identity.Owin;
+using Spire.Xls;
+using System.IO;
+using System.Xml.Linq;
+using AutoMapper;
 
 namespace b2bSwgroup.Controllers
 {
@@ -30,7 +34,7 @@ namespace b2bSwgroup.Controllers
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
 
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
-            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsCatalog).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).ToListAsync();
+            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsSpecification).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).ToListAsync();
             return View(specifications);
         }
 
@@ -39,7 +43,7 @@ namespace b2bSwgroup.Controllers
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
 
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
-            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsCatalog).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).Where(z=>z.Zakazchik.Contains(key)).ToListAsync();
+            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsSpecification).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).Where(z=>z.Zakazchik.Contains(key)).ToListAsync();
             return View(specifications);
         }
 
@@ -63,7 +67,7 @@ namespace b2bSwgroup.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specification specification = await db.Specifications.Include(s=>s.PositionsCatalog).FirstOrDefaultAsync(i=>i.Id==id);
+            Specification specification = await db.Specifications.Include(s=>s.PositionsSpecification).FirstOrDefaultAsync(i=>i.Id==id);
             if (specification == null)
             {
                 return HttpNotFound();
@@ -104,34 +108,33 @@ namespace b2bSwgroup.Controllers
 
             Specification specification = new Specification();
             db.Specifications.Add(specification);
-            var position = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
-            specification.PositionsCatalog.Add(position);
+            var positionCatalog = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
+            
+            specification.PositionsSpecification.Add(ConvertCatForSpec(positionCatalog));
             specification.Name = "Новая спецификация";
 
             specification.ApplicationUserId = currentUser.Id;
             specification.CustomerId = currentUser.OrganizationId;
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-
-            //ViewBag.CustomerId = new SelectList(db.Organizations, "Id", "Name", specification.CustomerId);
-            //return View(specification);
+            return View("SuccessAddPosition",specification);
         }
 
         //Метод добавляет позицию в спецификацию
-        public async Task<string> AddPosition(int idSpec, int idPos)
+        public async Task<ActionResult> AddPosition(int idSpec, int idPos)
         {
             var spec = await db.Specifications.FirstOrDefaultAsync(s => s.Id == idSpec);
-            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);
-            spec.PositionsCatalog.Add(posit);
+            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);            
+            spec.PositionsSpecification.Add(ConvertCatForSpec(posit));
             await db.SaveChangesAsync();
-            return "Позиция добавлена";
+            
+            return View("SuccessAddPosition",spec);
         }
         //метод удаляет позицию из спецификации
         public async Task<string> DeletePosition(int idSpec, int idPos)
         {
-            var spec = await db.Specifications.Include(p=>p.PositionsCatalog).FirstOrDefaultAsync(s => s.Id == idSpec);
-            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p => p.Id == idPos);
-            spec.PositionsCatalog.Remove(posit);
+            var spec = await db.Specifications.Include(p=>p.PositionsSpecification).FirstOrDefaultAsync(s => s.Id == idSpec);
+            var posit = await db.PositionsSpecification.FirstOrDefaultAsync(p => p.Id == idPos);
+            spec.PositionsSpecification.Remove(posit);
             await db.SaveChangesAsync();
             return "Позиция удалена";
         }
@@ -143,7 +146,7 @@ namespace b2bSwgroup.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specification specification = await db.Specifications.Include(s => s.PositionsCatalog).FirstOrDefaultAsync(i => i.Id == id);
+            Specification specification = await db.Specifications.Include(s => s.PositionsSpecification).FirstOrDefaultAsync(i => i.Id == id);
             if (specification == null)
             {
                 return HttpNotFound();
@@ -195,6 +198,28 @@ namespace b2bSwgroup.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<FileResult> Download(int id)
+        {
+            Workbook book = new Workbook();
+            Worksheet sheet = book.Worksheets[0];
+            string[] header = new string[]{ "Парт номер","наименование товара", "Стоимость","Валюта",
+                "Поставщик"};
+            sheet.InsertArray(header.ToArray(), 1, 1, false);
+            var specification = await db.Specifications.Include(p => p.PositionsSpecification.Select(o=>o.Distributor)).Include(p => p.PositionsSpecification.Select(o => o.Currency)).Where(i => i.Id == id).FirstOrDefaultAsync();
+
+            int countRow = 2;
+            foreach(var position in specification.PositionsSpecification)
+            {
+                string[] row = { position.PartNumber.ToString(),position.Name.ToString(), position.Price.ToString() ,position.Currency.Name,position.Distributor.Name };
+                sheet.InsertArray(row.ToArray(), countRow, 1,false);
+                countRow++;
+            }
+            MemoryStream mem = new MemoryStream();
+            book.SaveToStream(mem, FileFormat.Version2007);
+            mem.Position = 0;
+            return File(mem, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", specification.Name+".xlsx");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -202,6 +227,15 @@ namespace b2bSwgroup.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        PositionSpecification ConvertCatForSpec(PositionCatalog pos)
+        {
+            PositionSpecification positionSpecification = new PositionSpecification();
+
+            Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionSpecification>());
+            positionSpecification = Mapper.Map<PositionCatalog, PositionSpecification>(pos);
+            return positionSpecification;
         }
     }
 }

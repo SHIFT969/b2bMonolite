@@ -67,7 +67,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,PartNumber,Name,Price,CurrencyId,CategoryId")] PositionCatalog positionCatalog)
+        public async Task<ActionResult> Create([Bind(Include = "Id,PartNumber,Name,Quantity,Price,CurrencyId,CategoryId")] PositionCatalog positionCatalog)
         {
             
             if (ModelState.IsValid)
@@ -109,7 +109,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PartNumber,Name,Price,CurrencyId,CategoryId,DistributorId,DistributorApplicationUserId")] PositionCatalog positionCatalog)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,PartNumber,Name,Price,CurrencyId,Quantity,CategoryId,DistributorId,DistributorApplicationUserId")] PositionCatalog positionCatalog)
         {
             if (ModelState.IsValid)
             {
@@ -163,7 +163,7 @@ namespace b2bSwgroup.Controllers
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
             
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
-            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a=>a.DistributorId==myCompany.Id).ToListAsync();
+            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a => a.DistributorId == myCompany.Id).ToListAsync();
             return View(positionscatalog);
         }
     }
