@@ -147,6 +147,8 @@ namespace b2bSwgroup.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Specification specification = await db.Specifications.Include(s => s.PositionsSpecification).FirstOrDefaultAsync(i => i.Id == id);
+            //PositionSpecification spec = new PositionSpecification();
+            
             if (specification == null)
             {
                 return HttpNotFound();
@@ -210,7 +212,7 @@ namespace b2bSwgroup.Controllers
             int countRow = 2;
             foreach(var position in specification.PositionsSpecification)
             {
-                string[] row = { position.PartNumber.ToString(),position.Name.ToString(), position.Price.ToString() ,position.Currency.Name,position.Distributor.Name };
+                string[] row = { position.PartNumber.ToString(), position.Name.ToString(), position.Price.ToString() ,position.Currency==null ? "" : position.Currency.Name,position.Distributor.Name };
                 sheet.InsertArray(row.ToArray(), countRow, 1,false);
                 countRow++;
             }

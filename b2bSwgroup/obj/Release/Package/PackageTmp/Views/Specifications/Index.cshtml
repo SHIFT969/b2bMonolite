@@ -1,0 +1,88 @@
+﻿@model IEnumerable<b2bSwgroup.Models.Specification>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+<h2>Мои спецификации</h2>
+
+@if (User.IsInRole("ComfirmedUser"))
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4">
+                <input id="zakazchik" class="form-control" placeholder="Заказчик" />
+            </div>
+        </div>
+    </div>
+    <br />
+}
+
+<div id="specContainer">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zakazchik)
+            </th>
+            @if (User.IsInRole("ComfirmedUser"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
+            }
+            
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zakazchik)
+                </td>
+                @if (User.IsInRole("ComfirmedUser"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                }
+                
+                <td>
+                    @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id }) |
+                    @Html.ActionLink("Скачать", "Download", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+<script>
+    $('#zakazchik').on('input keyup', function () {
+        var bufKey = this.value;
+
+        {
+            $.ajax({
+                url: '@Url.Action("Search")',
+                data: "key=" + bufKey,
+                success: function (data) { $("#specContainer").html(data) },
+                error: function () { alert("Ошибка поиска") }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="b2bDb-Web.config Connection String" description="b2bDb Connection String used in web.config by the application to access the database." defaultValue="Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\b2b.mdf.mdf;Integrated Security=True;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\uvoronin\\Documents\\GitHub\\b2bMonolite\\b2bSwgroup\\obj\\Release\\Package\\PackageTmp\\Views\\web\.config$" match="/configuration/connectionStrings/add[@name='b2bDb']/@connectionString" />
+  </parameter>
+  <parameter name="b2bDb1-Web.config Connection String" description="b2bDb1 Connection String used in web.config by the application to access the database." defaultValue="Data Source=.\SQLEXPRESS;Initial Catalog=b2bDb1;Integrated Security=True;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\uvoronin\\Documents\\GitHub\\b2bMonolite\\b2bSwgroup\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='b2bDb1']/@connectionString" />
+  </parameter>
+  <parameter name="b2bDb1_DatabasePublish-Web.config Connection String" description="b2bDb1_DatabasePublish Connection String used in web.config by the application to access the database." defaultValue="b2bDb1_DatabasePublish.ConnetionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\uvoronin\\Documents\\GitHub\\b2bMonolite\\b2bSwgroup\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='b2bDb1_DatabasePublish']/@connectionString" />
+  </parameter>
+</parameters>

@@ -146,7 +146,6 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\System.Web.Webpage
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\System.Web.Webpages.Razor.xml
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\System.Web.Helpers.xml
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\System.Web.Mvc.xml
-C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csprojResolveAssemblyReference.cache
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.InitialCreate.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b1.resources
@@ -189,3 +188,10 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\AutoMapper.xml
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b12.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b13.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b14.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\PagedList.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\PagedList.Mvc.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\PagedList.xml
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\PagedList.Mvc.xml
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csprojResolveAssemblyReference.cache
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b15.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b16.resources

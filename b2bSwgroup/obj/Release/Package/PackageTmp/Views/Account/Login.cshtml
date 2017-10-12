@@ -1,0 +1,38 @@
+﻿@model b2bSwgroup.Models.LoginModel
+
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Login";
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-5">
+                <h2>Вход на сайт</h2>
+                @Html.ValidationSummary()
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                <p>
+                    <label>Email</label><br />
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                </p>
+                <p>
+                    <label>Пароль</label><br />
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                </p>
+                <p><button class="btn btn-primary" type="submit">Войти</button></p>
+            </div>            
+        </div>
+       
+    </div>
+}

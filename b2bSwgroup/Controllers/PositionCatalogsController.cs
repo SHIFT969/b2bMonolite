@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using b2bSwgroup.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Spire.Xls;
+using PagedList.Mvc;
+using PagedList;
 
 namespace b2bSwgroup.Controllers
 {
@@ -25,11 +27,13 @@ namespace b2bSwgroup.Controllers
         private ApplicationContext db = new ApplicationContext();
 
         // GET: PositionCatalogs
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
-            var positionscatalog = db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor);
+            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
             //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
-            return View(await positionscatalog.ToListAsync());
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(positionscatalog.ToPagedList(pageNumber,pageSize));
         }
         public async Task<ActionResult> Search(string key)
         {
@@ -181,8 +185,13 @@ namespace b2bSwgroup.Controllers
             //currencyExcelList.Add("KZT", "db8bbc3b-bd49-e611-80d6-24b6fdf8545c");
             //currencyExcelList.Add("EUR", "4be2906f-6509-e711-80dd-24b6fdf8545c");
             //currencyExcelList.Add("", "be604f9c-4319-e711-80dd-24b6fdf8545c");
-
-            //ViewBag.currencyExcelList = currencyExcelList;
+            var currentUser = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            var oldPositionsCatalog = await db.Positionscatalog.Where(p=>p.DistributorId==currentUser.OrganizationId).ToListAsync();
+            foreach(var pos in oldPositionsCatalog)
+            {
+                db.Positionscatalog.Remove(pos);
+            }
+            List<CrossCategory> myCategories = await db.CrossCategories.Where(c => c.DistributorId == currentUser.OrganizationId).ToListAsync();
             List<PositionCatalog> catalog = new List<PositionCatalog>();
             foreach (string file in Request.Files)
             {
@@ -195,13 +204,21 @@ namespace b2bSwgroup.Controllers
 
                     for (int i = 1; i < workSheet.Rows.Length; i++)
                     {
+                        int? idCat = null;
+                        if(myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[1].Value)!=null)
+                        {
+                            idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[1].Value).CategoryId;
+                        }
+                        
+                        
                         var position = new PositionCatalog()
                         {
                             PartNumber = workSheet.Rows[i].Cells[0].Value,
-                            //CategoryId = 
-                            //workSheet.Rows[i].Cells[1].Value,
+                            CategoryId = idCat, 
                             Name = workSheet.Rows[i].Cells[2].Value,
-                            Price = double.Parse(workSheet.Rows[i].Cells[3].Value)
+                            Price = double.Parse(workSheet.Rows[i].Cells[3].Value.Replace(".",",")),
+                            DistributorApplicationUserId = currentUser.Id,
+                            DistributorId = currentUser.OrganizationId
                         };
                         catalog.Add(position);
                     }

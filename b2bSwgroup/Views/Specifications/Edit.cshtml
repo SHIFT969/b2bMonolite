@@ -64,9 +64,10 @@
     {
         <tr>
             <td>@position.PartNumber</td>
-            <td>@position.Name</td>
+            <td>@position.Name</td>            
             <td>@position.Price</td>
-            @*<td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>*@
+            @*<td>@position.Distributor.Name</td>*@
+            <td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>
         </tr>
     }
 

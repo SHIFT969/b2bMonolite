@@ -100,6 +100,14 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Spire.Barcode, Version=1.4.0.16040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>..\packages\FreeSpire.Office.2.15\lib\net40\Spire.Barcode.dll</HintPath>
       <Private>True</Private>
@@ -185,6 +193,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -198,6 +207,8 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\hosting.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -288,6 +299,14 @@
     <Compile Include="Migrations\201710111122056_b2b14.cs" />
     <Compile Include="Migrations\201710111122056_b2b14.Designer.cs">
       <DependentUpon>201710111122056_b2b14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710120914095_b2b15.cs" />
+    <Compile Include="Migrations\201710120914095_b2b15.Designer.cs">
+      <DependentUpon>201710120914095_b2b15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710120916494_b2b16.cs" />
+    <Compile Include="Migrations\201710120916494_b2b16.Designer.cs">
+      <DependentUpon>201710120916494_b2b16.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
@@ -426,6 +445,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710111122056_b2b14.resx">
       <DependentUpon>201710111122056_b2b14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120914095_b2b15.resx">
+      <DependentUpon>201710120914095_b2b15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120916494_b2b16.resx">
+      <DependentUpon>201710120916494_b2b16.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

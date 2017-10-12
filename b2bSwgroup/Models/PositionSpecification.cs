@@ -28,11 +28,12 @@ namespace b2bSwgroup.Models
         public Distributor Distributor { get; set; }
         public string DistributorApplicationUserId { get; set; }
         public DistributorApplicationUser DistributorApplicationUser { get; set; }
-        public ICollection<Specification> Specifications { get; set; }
+        public int? SpecificationId { get; set; }
+        public Specification Specification { get; set; }
 
-        public PositionSpecification()
-        {
-            Specifications = new List<Specification>();
-        }
+        //public PositionSpecification()
+        //{
+        //    Specifications = new List<Specification>();
+        //}
     }
 }
