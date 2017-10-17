@@ -6,7 +6,7 @@
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Вход";
 }
 
 
@@ -29,8 +29,9 @@
                 <p>
                     <label>Пароль</label><br />
                     @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                </p>
+                </p>               
                 <p><button class="btn btn-primary" type="submit">Войти</button></p>
+                <p>@Html.ActionLink("Зарегистрироваться", "Register")</p>
             </div>            
         </div>
        

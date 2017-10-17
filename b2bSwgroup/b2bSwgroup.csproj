@@ -207,6 +207,7 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\biz2biz.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\hosting.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
@@ -308,6 +309,14 @@
     <Compile Include="Migrations\201710120916494_b2b16.Designer.cs">
       <DependentUpon>201710120916494_b2b16.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710170844536_b2b17.cs" />
+    <Compile Include="Migrations\201710170844536_b2b17.Designer.cs">
+      <DependentUpon>201710170844536_b2b17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710171130239_b2b18.cs" />
+    <Compile Include="Migrations\201710171130239_b2b18.Designer.cs">
+      <DependentUpon>201710171130239_b2b18.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -323,6 +332,7 @@
     <Compile Include="Models\DistributorApplicationUser.cs" />
     <Compile Include="Models\EditUserView.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\PositionCatalog.cs" />
     <Compile Include="Models\PositionSpecification.cs" />
@@ -396,6 +406,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\Interfaces\" />
     <Folder Include="Temp\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709111056309_InitialCreate.resx">
@@ -451,6 +462,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710120916494_b2b16.resx">
       <DependentUpon>201710120916494_b2b16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710170844536_b2b17.resx">
+      <DependentUpon>201710170844536_b2b17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710171130239_b2b18.resx">
+      <DependentUpon>201710171130239_b2b18.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

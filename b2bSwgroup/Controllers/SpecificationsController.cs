@@ -13,6 +13,7 @@ using Spire.Xls;
 using System.IO;
 using System.Xml.Linq;
 using AutoMapper;
+using b2bSwgroup.Models.ModelsForView;
 
 namespace b2bSwgroup.Controllers
 {
@@ -109,25 +110,31 @@ namespace b2bSwgroup.Controllers
             Specification specification = new Specification();
             db.Specifications.Add(specification);
             var positionCatalog = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
-            
-            specification.PositionsSpecification.Add(ConvertCatForSpec(positionCatalog));
+            var positionSpec = ConvertCatForSpec(positionCatalog);
+            positionSpec.Quantity = 1;
+            specification.PositionsSpecification.Add(positionSpec);
             specification.Name = "Новая спецификация";
 
             specification.ApplicationUserId = currentUser.Id;
             specification.CustomerId = currentUser.OrganizationId;
+            specification.DateCreate = DateTime.Now;
+            specification.DateEdit = DateTime.Now;
             await db.SaveChangesAsync();
-            return View("SuccessAddPosition",specification);
+            ViewForAddPosition custView = new ViewForAddPosition() { Specification=specification, PosSpec= positionSpec};
+            return View("SuccessAddPosition",custView);
         }
 
         //Метод добавляет позицию в спецификацию
         public async Task<ActionResult> AddPosition(int idSpec, int idPos)
         {
             var spec = await db.Specifications.FirstOrDefaultAsync(s => s.Id == idSpec);
-            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);            
-            spec.PositionsSpecification.Add(ConvertCatForSpec(posit));
+            var posit = await db.Positionscatalog.FirstOrDefaultAsync(p=>p.Id==idPos);
+            var positionSpec = ConvertCatForSpec(posit);
+            positionSpec.Quantity = 1;
+            spec.PositionsSpecification.Add(positionSpec);
             await db.SaveChangesAsync();
-            
-            return View("SuccessAddPosition",spec);
+            ViewForAddPosition custView = new ViewForAddPosition() { Specification = spec, PosSpec = positionSpec };
+            return View("SuccessAddPosition", custView);
         }
         //метод удаляет позицию из спецификации
         public async Task<string> DeletePosition(int idSpec, int idPos)
@@ -167,6 +174,7 @@ namespace b2bSwgroup.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(specification).State = EntityState.Modified;
+                specification.DateEdit = DateTime.Now;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -238,6 +246,13 @@ namespace b2bSwgroup.Controllers
             Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionSpecification>());
             positionSpecification = Mapper.Map<PositionCatalog, PositionSpecification>(pos);
             return positionSpecification;
+        }
+
+        public async Task EditQuantity(int positionId, int quant)
+        {
+            PositionSpecification position = await db.PositionsSpecification.FirstOrDefaultAsync(i => i.Id == positionId);
+            position.Quantity = quant;
+            await db.SaveChangesAsync();
         }
     }
 }

@@ -1,12 +1,35 @@
-﻿@model b2bSwgroup.Models.Specification
+﻿@model b2bSwgroup.Models.ModelsForView.ViewForAddPosition
 
 <div class="modal-content">
     <div class="modal-header">
         @*<button class="close" data-dismiss="modal" area-hidden="true">X</button>*@
-        <h3>Поздравляем, позиция добавлена</h3>
+        <h3>Позиция <strong>@Model.PosSpec.Name</strong> добавлена</h3>
+        <h4>Количество</h4>
+        <input id="inputQuantity" class="input-sm" type="number" value=@Model.PosSpec.Quantity />
+        <button id="applyQuantityBtn">Применить</button>
+        <span></span>
     </div>
     <div class="modal-body">
-        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Продолжить просмотр" />
-        @Html.ActionLink("Перейти к спецификации", "Edit", "Specifications", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        <input type="button" class="btn btn-primary btnBeforeAddPos" data-dismiss="modal" value="Продолжить просмотр" />
+        @Html.ActionLink("Перейти к спецификации", "Edit", "Specifications", new { id = Model.Specification.Id}, new { @class = "btn btn-primary btnBeforeAddPos"})
     </div>
 </div>
+
+<script>
+    $("#applyQuantityBtn").click(function () {
+        var quant = $("#inputQuantity").val();
+        $.ajax({
+            url: '@Url.Action("EditQuantity","Specifications")',
+            data: "positionId=" + @Model.PosSpec.Id + "&quant="+ quant,
+            success: function (data) {
+                $(".btnBeforeAddPos").removeClass("btn-danger");
+                $(".btnBeforeAddPos").addClass("btn-primary");
+            },
+            error: function () { alert("Ошибка изменения количества") }
+        });
+    });
+    $("#inputQuantity").keypress(function () {
+        $(".btnBeforeAddPos").removeClass("btn-primary");
+        $(".btnBeforeAddPos").addClass("btn-danger");
+    });
+</script>

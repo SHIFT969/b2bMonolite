@@ -32,15 +32,8 @@ namespace b2bSwgroup.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user;
-                if (model.userType==UserType.Customer)
-                {
-                    user = new CustomerApplUser { UserName = model.Email, Email = model.Email };
-                }
-                else
-                {
-                    user = new DistributorApplicationUser { UserName = model.Email, Email = model.Email };
-                }
+                ApplicationUser user = new CustomerApplUser { UserName = model.Email, Email = model.Email };
+                
                 
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

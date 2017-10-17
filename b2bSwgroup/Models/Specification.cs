@@ -23,6 +23,10 @@ namespace b2bSwgroup.Models
         public string Comment { get; set; }
         [Display(Name ="Заказчик")]
         public string Zakazchik { get; set; }
+        [Display(Name = "Дата создания")]
+        public DateTime DateCreate { get; set; }
+        [Display(Name = "Дата последнего изменения")]
+        public DateTime DateEdit { get; set; }
 
         public Specification()
         {

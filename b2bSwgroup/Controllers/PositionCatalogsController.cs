@@ -35,11 +35,13 @@ namespace b2bSwgroup.Controllers
             int pageNumber = (page ?? 1);
             return View(positionscatalog.ToPagedList(pageNumber,pageSize));
         }
-        public async Task<ActionResult> Search(string key)
+        public async Task<ActionResult> Search(string key, int? page)
         {
-            var positionscatalog = db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Where(n=>n.Name.Contains(key));
+            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Where(n=>n.Name.Contains(key)).ToListAsync();
             //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
-            return View(await positionscatalog.ToListAsync());
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(positionscatalog);
         }
 
 
@@ -114,7 +116,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PartNumber,Name,Price,CurrencyId,Quantity,CategoryId,DistributorId,DistributorApplicationUserId")] PositionCatalog positionCatalog)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Articul,PartNumber,Name,Price,CurrencyId,Quantity,CategoryId,DistributorId,DistributorApplicationUserId")] PositionCatalog positionCatalog)
         {
             if (ModelState.IsValid)
             {

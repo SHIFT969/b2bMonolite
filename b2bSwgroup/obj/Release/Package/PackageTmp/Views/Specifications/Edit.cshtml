@@ -15,6 +15,7 @@
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model=>model.ApplicationUserId)
         @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.DateCreate)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -60,13 +61,21 @@
 
 <h4>Позиции по спецификации</h4>
 <table class="table">
+    <tr>
+        <th>P/N</th>
+        <th>Наименование</th>
+        <th>Количество</th>
+        <th>Цена за единицу</th>
+    </tr>
     @foreach (var position in Model.PositionsSpecification)
     {
         <tr>
             <td>@position.PartNumber</td>
-            <td>@position.Name</td>
+            <td>@position.Name</td>   
+            <td>@position.Quantity</td>     
             <td>@position.Price</td>
-            @*<td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>*@
+            @*<td>@position.Distributor.Name</td>*@
+            <td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>
         </tr>
     }
 
