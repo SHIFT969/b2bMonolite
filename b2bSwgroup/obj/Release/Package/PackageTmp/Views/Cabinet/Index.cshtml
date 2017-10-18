@@ -1,0 +1,32 @@
+﻿@model b2bSwgroup.Models.ApplicationUser
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2>Настройки</h2>
+@Html.DisplayNameFor(model => Model.UserName)
+@Html.DisplayFor(model => Model.UserName)
+<br />
+
+<input class="btn modalindex" type="button" value="Управление компанией" />
+
+<script>
+    $('body').on('click', '.modalindex', function (e)
+    {
+        e.preventDefault();
+        $.ajax({
+            url: '@Url.Action("ManagementOrganization", "Cabinet")',
+            success: function (result) {
+                $('#dialogContent').html(result);
+                $('#modDialog').modal('show');
+            },
+            error: function () {
+                alert("Ошибка");
+            }
+        });
+    });
+</script>

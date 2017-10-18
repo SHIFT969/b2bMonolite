@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<b2bSwgroup.Models.PositionCatalog>
 @using PagedList.Mvc;
+@using b2bSwgroup.App_Code;
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
@@ -28,14 +29,13 @@
 </div>
 <div id="positionsContainer" class="container-fluid">
     <div class="row">
-        <div class="col-lg-1 text-center"><strong>Артикул</strong></div>
-        <div class="col-lg-1 text-center"><strong>P/N</strong></div>
-        <div class="col-lg-2 text-center"><strong>Категория</strong></div>
-        <div class="col-lg-3 text-center"><strong>Наименование</strong></div>
-        <div class="col-lg-1 text-center"><strong>Прайс</strong></div>
-        <div class="col-lg-1 text-center"><strong>Валюта</strong></div>
-        <div class="col-lg-1 text-center"><strong>Поставщик</strong></div>
-        <div class="col-lg-2 text-center"></div>
+        <div class="col-lg-1"><strong>Артикул</strong></div>
+        <div class="col-lg-1"><strong>P/N</strong></div>
+        <div class="col-lg-2"><strong>Категория</strong></div>
+        <div class="col-lg-4"><strong>Наименование</strong></div>
+        <div class="col-lg-1"><strong>Прайс</strong></div>
+        <div class="col-lg-1"><strong>Поставщик</strong></div>
+        <div class="col-lg-2"></div>
     </div>
     <hr />
     @foreach (var item in Model)
@@ -44,9 +44,8 @@
             <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Articul)</div>
             <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.PartNumber)</div>
             <div class="col-lg-2 ">@Html.DisplayFor(modelItem => item.Category.Name)</div>
-            <div class="col-lg-3 ">@Html.DisplayFor(modelItem => item.Name)</div>
-            <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Price)</div>
-            <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Currency.IsoCode)</div>
+            <div class="col-lg-4 ">@Html.DisplayFor(modelItem => item.Name)</div>
+            <div class="col-lg-1 ">@Helpers.SetPrice(item.Price,item.Currency)</div>           
             <div class="col-lg-1 ">
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -64,74 +63,9 @@
                 }
             </div>
         </div>
+        <hr />
     }
-    @*<table class="table">
-        <tr>
-            <th>
-                Артикул
-            </th>
-            <th>
-                P/N
-            </th>
-            <th>
-                Категория
-            </th>           
-            <th>
-                Наименование
-            </th>
-            <th>
-                Прайс
-            </th>
-            <th>
-                Валюта
-            </th>
-            <th>
-                Поставщик
-            </th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Articul)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PartNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
-                </td>               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currency.IsoCode)
-                </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @Html.DisplayFor(modelItem => item.Distributor.Name)
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
-                    }
-                </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
-                    {
-                        @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>*@
     
     <br />
     Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount

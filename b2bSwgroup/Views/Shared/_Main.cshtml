@@ -34,6 +34,7 @@
                     
                     <ul id="menu" class="nav navbar-nav col-lg-10">
                         <li>@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
+                        
                         @if (User.IsInRole("Distributor"))
                         {
                             <li>@Html.ActionLink("Мой каталог", "MyPositions", "PositionCatalogs")</li>
@@ -53,7 +54,11 @@
                             <li>@Html.ActionLink("Справочник валют", "Index", "Currencies")</li>
                             <li>@Html.ActionLink("Справочник категорий", "Index", "Categories")</li>
                         }
-                        
+                       @if (User.Identity.IsAuthenticated)
+                       {
+                        <li>@Html.ActionLink("Настройки", "Index", "Cabinet")</li>
+                       }
+
                     </ul>
                     <div class="col-lg-2">
                     @if (User.Identity.IsAuthenticated)

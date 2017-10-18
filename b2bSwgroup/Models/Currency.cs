@@ -11,6 +11,8 @@ namespace b2bSwgroup.Models
         public int Id { get; set; }
         [Display(Name="Валюта")]
         public string IsoCode { get; set; }
+        [Display(Name = "Локаль")]
+        public string СultureInfo { get; set; }
         [Display(Name = "Наименование валюты")]
         public string Name { get; set; }     
     }

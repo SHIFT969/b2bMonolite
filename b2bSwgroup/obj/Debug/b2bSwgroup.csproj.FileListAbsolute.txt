@@ -197,3 +197,5 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.M
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b16.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b17.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b18.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b19.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b20.resources

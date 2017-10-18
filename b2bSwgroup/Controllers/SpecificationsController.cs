@@ -11,7 +11,6 @@ using b2bSwgroup.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Spire.Xls;
 using System.IO;
-using System.Xml.Linq;
 using AutoMapper;
 using b2bSwgroup.Models.ModelsForView;
 
@@ -35,8 +34,16 @@ namespace b2bSwgroup.Controllers
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
 
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
-            var specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsSpecification).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).ToListAsync();
-            return View(specifications);
+            List<Specification> specifications = new List<Specification>();
+            if(myCompany!=null && thisUser is CustomerApplUser)
+            {
+                specifications = await db.Specifications.Include(s => s.Customer).Include(c => c.PositionsSpecification).Include(s => s.ApplicationUser).Where(s => s.CustomerId == myCompany.Id).ToListAsync();
+                return View(specifications);
+            }
+            else
+            {
+                return RedirectToAction("NotOrganization", "Error");
+            }                 
         }
 
         public async Task<ActionResult> Search(string key)
@@ -106,22 +113,29 @@ namespace b2bSwgroup.Controllers
         public async Task<ActionResult> Create(int idPosition)
         {
             var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
-
             Specification specification = new Specification();
-            db.Specifications.Add(specification);
-            var positionCatalog = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
-            var positionSpec = ConvertCatForSpec(positionCatalog);
-            positionSpec.Quantity = 1;
-            specification.PositionsSpecification.Add(positionSpec);
-            specification.Name = "Новая спецификация";
+            if (currentUser.OrganizationId!=null)
+            {                
+                db.Specifications.Add(specification);
+                var positionCatalog = db.Positionscatalog.FirstOrDefault(i => i.Id == idPosition);
+                var positionSpec = ConvertCatForSpec(positionCatalog);
+                positionSpec.Quantity = 1;
+                specification.PositionsSpecification.Add(positionSpec);
+                specification.Name = "Новая спецификация";
 
-            specification.ApplicationUserId = currentUser.Id;
-            specification.CustomerId = currentUser.OrganizationId;
-            specification.DateCreate = DateTime.Now;
-            specification.DateEdit = DateTime.Now;
-            await db.SaveChangesAsync();
-            ViewForAddPosition custView = new ViewForAddPosition() { Specification=specification, PosSpec= positionSpec};
-            return View("SuccessAddPosition",custView);
+                specification.ApplicationUserId = currentUser.Id;
+                specification.CustomerId = currentUser.OrganizationId;
+                specification.DateCreate = DateTime.Now;
+                specification.DateEdit = DateTime.Now;
+                await db.SaveChangesAsync();
+                ViewForAddPosition custView = new ViewForAddPosition() { Specification = specification, PosSpec = positionSpec };
+                return View("SuccessAddPosition", custView);
+            }
+            else
+            {
+                return RedirectToAction("NotOrganizationPartial","Error");
+            }
+            
         }
 
         //Метод добавляет позицию в спецификацию
@@ -153,7 +167,7 @@ namespace b2bSwgroup.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specification specification = await db.Specifications.Include(s => s.PositionsSpecification).FirstOrDefaultAsync(i => i.Id == id);
+            Specification specification = await db.Specifications.Include(s => s.PositionsSpecification.Select(o => o.Currency)).FirstOrDefaultAsync(i => i.Id == id);
             //PositionSpecification spec = new PositionSpecification();
             
             if (specification == null)

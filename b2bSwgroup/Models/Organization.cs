@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace b2bSwgroup.Models
 {
-    public abstract class Organization
+    public class Organization
     {
         public int Id { get; set; }
         [Display(Name="Наименование организации")]

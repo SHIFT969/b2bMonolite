@@ -1,5 +1,6 @@
 ﻿
 @model b2bSwgroup.Models.Specification
+@using b2bSwgroup.App_Code;
 @{
     Layout = "~/Views/Shared/_Main.cshtml";
 }
@@ -60,21 +61,24 @@
 }
 
 <h4>Позиции по спецификации</h4>
+@Html.ActionLink("Скачать", "Download", new { id = Model.Id })
 <table class="table">
     <tr>
+        <th>Артикул</th>
         <th>P/N</th>
         <th>Наименование</th>
         <th>Количество</th>
         <th>Цена за единицу</th>
+        <th></th>
     </tr>
     @foreach (var position in Model.PositionsSpecification)
     {
         <tr>
-            <td>@position.PartNumber</td>
-            <td>@position.Name</td>   
-            <td>@position.Quantity</td>     
-            <td>@position.Price</td>
-            @*<td>@position.Distributor.Name</td>*@
+            <td>@Html.DisplayFor(modelItem => position.Articul)</td> 
+            <td>@Html.DisplayFor(modelItem => position.PartNumber)</td> 
+            <td>@Html.DisplayFor(modelItem => position.Name)</td>
+            <td>@Html.DisplayFor(modelItem => position.Quantity)</td>
+            <td>@Helpers.SetPrice(position.Price,position.Currency)</td>
             <td>@Ajax.ActionLink("Удалить позицию", "DeletePosition", new { idSpec = Model.Id, idPos=position.Id }, new AjaxOptions { OnSuccess = "successDeletePosition", OnFailure = "failAddPosition" })</td>
         </tr>
     }

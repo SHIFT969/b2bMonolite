@@ -222,15 +222,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Helpers.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CabinetController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CrossCategoriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\DistributorsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PositionCatalogsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SpecificationsController.cs" />
@@ -317,6 +321,14 @@
     <Compile Include="Migrations\201710171130239_b2b18.Designer.cs">
       <DependentUpon>201710171130239_b2b18.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710181123145_b2b19.cs" />
+    <Compile Include="Migrations\201710181123145_b2b19.Designer.cs">
+      <DependentUpon>201710181123145_b2b19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710181144328_b2b20.cs" />
+    <Compile Include="Migrations\201710181144328_b2b20.Designer.cs">
+      <DependentUpon>201710181144328_b2b20.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -395,6 +407,11 @@
     <Content Include="Views\CrossCategories\Edit.cshtml" />
     <Content Include="Views\CrossCategories\Index.cshtml" />
     <Content Include="Views\PositionCatalogs\UploadExcel.cshtml" />
+    <Content Include="Views\Error\NotOrganization.cshtml" />
+    <Content Include="Views\Cabinet\Index.cshtml" />
+    <Content Include="Views\Organization\Edit.cshtml" />
+    <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Error\NotOrganizationPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -407,6 +424,7 @@
     <Folder Include="Models\Interfaces\" />
     <Folder Include="Temp\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709111056309_InitialCreate.resx">
@@ -468,6 +486,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710171130239_b2b18.resx">
       <DependentUpon>201710171130239_b2b18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710181123145_b2b19.resx">
+      <DependentUpon>201710181123145_b2b19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710181144328_b2b20.resx">
+      <DependentUpon>201710181144328_b2b20.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

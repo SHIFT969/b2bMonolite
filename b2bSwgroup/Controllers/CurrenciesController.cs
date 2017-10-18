@@ -49,7 +49,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,IsoCode,Name")] Currency currency)
+        public async Task<ActionResult> Create( Currency currency)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace b2bSwgroup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,IsoCode,Name")] Currency currency)
+        public async Task<ActionResult> Edit(Currency currency)
         {
             if (ModelState.IsValid)
             {

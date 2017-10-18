@@ -9,6 +9,8 @@ namespace b2bSwgroup.Models
     public class PositionSpecification
     {
         public int Id { get; set; }
+        [Display(Name = "Артикул")]
+        public string Articul { get; set; }
         [Display(Name = "P/N")]
         public string PartNumber { get; set; }
         [Display(Name = "Наименование")]
