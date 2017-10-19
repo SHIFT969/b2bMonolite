@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace b2bSwgroup.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private ApplicationRoleManager RoleManager

@@ -11,6 +11,7 @@ using b2bSwgroup.Models;
 
 namespace b2bSwgroup.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private ApplicationContext db = new ApplicationContext();

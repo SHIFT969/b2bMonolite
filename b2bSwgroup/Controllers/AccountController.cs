@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
+using b2bSwgroup.Models.ModelsForView;
 
 namespace b2bSwgroup.Controllers
 {
@@ -120,6 +121,41 @@ namespace b2bSwgroup.Controllers
             return RedirectToAction("Index","PositionCatalogs");
         }
 
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]        
+        public async Task<ActionResult> ChangePassword(ViewResetPassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+                
+                if(await UserManager.CheckPasswordAsync(thisUser,model.OldPassword))
+                {
+                    var resultChande = await UserManager.ChangePasswordAsync(thisUser.Id,model.OldPassword,model.Password);
+                    if(resultChande.Succeeded)
+                    {
+                        return View("CompleteChangePassword");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Изменить пароль не удалось, обратитесь в службу поддержки");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Старый пароль указан неверно");
+                    return View(model);
+                }
+                
+            }
+            return View(model);
+        }
       
     }
 }

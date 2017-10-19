@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace b2bSwgroup.Controllers
 {
+    [Authorize]
     public class CrossCategoriesController : Controller
     {
         private ApplicationContext db = new ApplicationContext();

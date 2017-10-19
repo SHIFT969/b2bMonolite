@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace b2bSwgroup.Controllers
 {
-   // [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationContext db = new ApplicationContext();

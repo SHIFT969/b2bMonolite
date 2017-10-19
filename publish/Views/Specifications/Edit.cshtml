@@ -59,9 +59,10 @@
         </div>
     </div>
 }
-
+<a href='@Url.Action("Download", new { id = Model.Id })'>
+    <img height="100" src="~/Images/xlsicon.jpg" />
+</a>
 <h4>Позиции по спецификации</h4>
-@Html.ActionLink("Скачать", "Download", new { id = Model.Id })
 <table class="table">
     <tr>
         <th>Артикул</th>

@@ -16,6 +16,7 @@ using b2bSwgroup.Models.ModelsForView;
 
 namespace b2bSwgroup.Controllers
 {
+    [Authorize]
     public class CabinetController : Controller
     {
         private ApplicationContext db = new ApplicationContext();

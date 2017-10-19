@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Images\xlsicon.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\biz2biz.pubxml" />
@@ -345,6 +346,7 @@
     <Compile Include="Models\EditUserView.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
+    <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\PositionCatalog.cs" />
     <Compile Include="Models\PositionSpecification.cs" />
@@ -412,6 +414,8 @@
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Create.cshtml" />
     <Content Include="Views\Error\NotOrganizationPartial.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\CompleteChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

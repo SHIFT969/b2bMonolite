@@ -15,6 +15,7 @@ using PagedList;
 
 namespace b2bSwgroup.Controllers
 {
+    //[Authorize]
     public class PositionCatalogsController : Controller
     {
         private ApplicationUserManager UserManager
@@ -207,18 +208,19 @@ namespace b2bSwgroup.Controllers
                     for (int i = 1; i < workSheet.Rows.Length; i++)
                     {
                         int? idCat = null;
-                        if(myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[1].Value)!=null)
+                        if(myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[2].Value)!=null)
                         {
-                            idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[1].Value).CategoryId;
+                            idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[2].Value).CategoryId;
                         }
-                        
-                        
+                        var myIsoCode = workSheet.Rows[i].Cells[5].Value;
                         var position = new PositionCatalog()
                         {
-                            PartNumber = workSheet.Rows[i].Cells[0].Value,
+                            Articul = workSheet.Rows[i].Cells[0].Value,
+                            PartNumber = workSheet.Rows[i].Cells[1].Value,
                             CategoryId = idCat, 
-                            Name = workSheet.Rows[i].Cells[2].Value,
-                            Price = double.Parse(workSheet.Rows[i].Cells[3].Value.Replace(".",",")),
+                            Name = workSheet.Rows[i].Cells[3].Value,
+                            Price = double.Parse(workSheet.Rows[i].Cells[4].Value.Replace(".",",")),
+                            Currency = db.Currencies.FirstOrDefault(j => j.IsoCode == myIsoCode),                            
                             DistributorApplicationUserId = currentUser.Id,
                             DistributorId = currentUser.OrganizationId
                         };

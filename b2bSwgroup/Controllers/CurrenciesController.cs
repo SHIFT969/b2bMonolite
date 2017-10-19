@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace b2bSwgroup.Controllers
 {
-    
+    [Authorize(Roles = "Admin")]
     public class CurrenciesController : Controller
     {
         private ApplicationContext db = new ApplicationContext();

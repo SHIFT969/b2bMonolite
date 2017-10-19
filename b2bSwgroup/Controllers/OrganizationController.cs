@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace b2bSwgroup.Controllers
 {
+    [Authorize]
     public class OrganizationController : Controller
     {
         private ApplicationUserManager UserManager
