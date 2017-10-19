@@ -7,7 +7,8 @@ namespace b2bSwgroup.Models
     {
         public int? OrganizationId { get; set; }
         public Organization Organization { get; set; }
-        [Display(Name ="Пользователь")]
+        [Display(Name ="Логин")]
+        [Required]
         public override string UserName
         {
             get

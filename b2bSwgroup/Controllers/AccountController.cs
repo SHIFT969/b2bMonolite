@@ -49,7 +49,15 @@ namespace b2bSwgroup.Controllers
                     //await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
                     //           "Для завершения регистрации перейдите по ссылке:: <a href=\""
                     //                                           + callbackUrl + "\">завершить регистрацию</a>");
-                    return RedirectToAction("Login", "Account");
+                    //return RedirectToAction("Login", "Account");
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+                                            DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Index", "PositionCatalogs");       
                 }
                 else
                 {

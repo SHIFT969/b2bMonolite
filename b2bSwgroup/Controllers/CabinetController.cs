@@ -31,7 +31,21 @@ namespace b2bSwgroup.Controllers
         public async Task<ActionResult> Index()
         {
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            
             return View(thisUser);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Index(ApplicationUser user)
+        {
+            //ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            //if(ModelState.IsValid)
+            //{
+            //    thisUser.UserName = user.UserName;
+            //    await UserManager.UpdateAsync(thisUser);
+            //    RedirectToAction("Index");
+            //}
+            RedirectToAction("Index");
+            return View(user);
         }
 
         public async Task<ActionResult> ManagementOrganization()
