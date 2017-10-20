@@ -269,5 +269,11 @@ namespace b2bSwgroup.Controllers
             position.Quantity = quant;
             await db.SaveChangesAsync();
         }
+
+        public async Task<ActionResult> CurrentSpecsInfo()
+        {
+            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            return PartialView();
+        }
     }
 }

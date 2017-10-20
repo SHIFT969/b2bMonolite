@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2017 20:07:14</publishTime>
     </File>
     <File Include="bin/b2bSwgroup.dll">
-      <publishTime>10/19/2017 01:33:20</publishTime>
+      <publishTime>10/19/2017 17:53:23</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -345,6 +345,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery.unobtrusive-ajax.min.js">
       <publishTime>10/02/2017 18:00:02</publishTime>
     </File>
+    <File Include="Views/Account/ChangePassword.cshtml">
+      <publishTime>10/19/2017 16:44:40</publishTime>
+    </File>
+    <File Include="Views/Account/CompleteChangePassword.cshtml">
+      <publishTime>10/19/2017 16:57:49</publishTime>
+    </File>
     <File Include="Views/Account/Login.cshtml">
       <publishTime>10/17/2017 14:17:44</publishTime>
     </File>
@@ -358,7 +364,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/13/2017 15:12:02</publishTime>
     </File>
     <File Include="Views/Cabinet/Index.cshtml">
-      <publishTime>10/18/2017 17:33:25</publishTime>
+      <publishTime>10/19/2017 14:45:40</publishTime>
     </File>
     <File Include="Views/Categories/Create.cshtml">
       <publishTime>09/04/2017 10:12:10</publishTime>
