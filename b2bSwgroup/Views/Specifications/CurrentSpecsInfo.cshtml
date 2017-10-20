@@ -1,12 +1,28 @@
-﻿
-<div style="display:inline-flex; margin:5px">
-    <div style="position:relative; display:inline-block;margin:auto 0 auto 0">
-        <img height="32" src="~/Images/spec-icon.png" />
-        <span style="position:absolute;top:-5px;right:-5px;background-color:orangered;border-radius:20px; width:20px;height:20px;text-align:center" id="quantity-spec">1</span>
-    </div>
-    <div style="display:inline-block; width:150px;margin:auto 0 auto 5px">
-        <span id="name-spec">Новая спецификация</span>
-    </div>
-</div>
+﻿@model b2bSwgroup.Models.Specification
 
-    
+@if (Model != null)
+{
+    <div style="display:inline-flex; margin:5px">
+        <div style="position:relative; display:inline-block;margin:auto 0 auto 0">
+            <img height="32" src="~/Images/spec-icon.png" />
+            <span style="position:absolute;top:-5px;right:-5px;background-color:orangered;border-radius:20px; width:20px;height:20px;text-align:center" id="quantity-spec">@Model.PositionsSpecification.Count</span>
+        </div>
+        <div style="display:inline-block; width:150px;margin:auto 0 auto 5px">
+            <span id="name-spec">@Model.Name</span>
+        </div>
+    </div>
+}
+else
+{
+    <div style="display:inline-flex; margin:5px">
+        <div style="position:relative; display:inline-block;margin:auto 0 auto 0">
+            <img height="32" src="~/Images/spec-icon.png" />            
+        </div>
+        <div style="display:inline-block; width:150px;margin:auto 0 auto 5px">
+            <span id="name-spec">Нет активных спецификаций</span>
+        </div>
+    </div>
+}
+
+
+

@@ -54,19 +54,32 @@
                        }
                     </ul>
                     
-                    <div class="col-lg-3" style="display:inline-flex">
+                    <div class="col-lg-3" style="display:flex;">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div id="basket" style="display:inline-block; margin:auto 0 auto auto">
-                            </div>  
-                            <div style="display:inline-block; margin: auto 0 auto 0">
-                                <p>@User.Identity.Name</p>
-                                <p>@Html.ActionLink("Выйти", "Logout", "Account")</p>
-                            </div>                    
+                            if (User.IsInRole("User"))
+                            {
+                                <div id="basket" style="display:inline-block; margin:auto 0 auto auto">
+                                </div>
+                                <div style="display:inline-block; margin: auto 0 auto 0">
+                                    <p>@User.Identity.Name</p>
+                                    @Html.ActionLink("Выйти", "Logout", "Account")
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="display:inline-block; margin: auto 0 auto auto">
+                                    <p>@User.Identity.Name</p>
+                                    @Html.ActionLink("Выйти", "Logout", "Account")
+                                </div>
+                            }
+
                         }
                         else
                         {
-                            @Html.ActionLink("Войти", "Login", "Account")
+                            <div style="display:inline-block; margin:auto 0 auto auto">
+                                @Html.ActionLink("Войти", "Login", "Account")
+                            </div>                            
                         }
                     </div>                    
                 </div>
@@ -99,15 +112,19 @@
             {
                 message.text("Подтвердите компанию для доступа к расширенному функционалу. Пользователи подтвержденных компаний видят историю создания Спецификаций");
             }
-            $.ajax({
-                url: '@Url.Action("CurrentSpecsInfo", "Specifications")',
-                success: function (data) {
-                    $('#basket').html(data);
-                },
-            });
+            UpdateCurrentBasket();
 
         });
     });
+    function UpdateCurrentBasket()
+    {
+        $.ajax({
+            url: '@Url.Action("CurrentSpecsInfo", "Specifications")',
+            success: function (data) {
+                $('#basket').html(data);
+            },
+        });
+    }
     function randomInteger(min, max) {
         var rand = min - 0.5 + Math.random() * (max - min + 1)
         rand = Math.round(rand);

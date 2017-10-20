@@ -129,6 +129,7 @@ namespace b2bSwgroup.Controllers
                 specification.DateCreate = DateTime.Now;
                 specification.DateEdit = DateTime.Now;
                 await db.SaveChangesAsync();
+                await SetActivity(specification);
                 ViewForAddPosition custView = new ViewForAddPosition() { Specification = specification, PosSpec = positionSpec };
                 return View("SuccessAddPosition", custView);
             }
@@ -148,6 +149,7 @@ namespace b2bSwgroup.Controllers
             positionSpec.Quantity = 1;
             spec.PositionsSpecification.Add(positionSpec);
             await db.SaveChangesAsync();
+            await SetActivity(spec);
             ViewForAddPosition custView = new ViewForAddPosition() { Specification = spec, PosSpec = positionSpec };
             return View("SuccessAddPosition", custView);
         }
@@ -270,10 +272,23 @@ namespace b2bSwgroup.Controllers
             await db.SaveChangesAsync();
         }
 
+        [Authorize(Roles ="User")]
         public async Task<ActionResult> CurrentSpecsInfo()
         {
             var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
-            return PartialView();
+            Specification specification = await db.Specifications.Include(p=>p.PositionsSpecification).Where(u => u.ApplicationUserId == currentUser.Id).FirstOrDefaultAsync(a => a.Activity == true);
+            return PartialView(specification);
+        }
+        async Task SetActivity(Specification specification)
+        {
+            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            List<Specification> AllSpecificationsActivity = await db.Specifications.Where(u => u.ApplicationUserId == currentUser.Id).Where(a => a.Activity == true).ToListAsync();
+            foreach(var spec in AllSpecificationsActivity)
+            {
+                spec.Activity = false;
+            }
+            specification.Activity = true;
+            await db.SaveChangesAsync();
         }
     }
 }

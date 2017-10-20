@@ -92,3 +92,4 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Release\b2bSwgroup
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Release\b2bSwgroup.Migrations.b2b18.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Release\b2bSwgroup.Migrations.b2b19.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Release\b2bSwgroup.Migrations.b2b20.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Release\b2bSwgroup.Migrations.b2b21.resources
