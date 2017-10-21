@@ -199,3 +199,4 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.M
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b19.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b20.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b21.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csprojResolveAssemblyReference.cache

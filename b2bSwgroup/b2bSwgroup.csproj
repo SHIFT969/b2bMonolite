@@ -349,6 +349,7 @@
     <Compile Include="Models\Distributor.cs" />
     <Compile Include="Models\DistributorApplicationUser.cs" />
     <Compile Include="Models\EditUserView.cs" />
+    <Compile Include="Models\EmailService.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />

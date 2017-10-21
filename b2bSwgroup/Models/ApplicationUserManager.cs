@@ -14,6 +14,8 @@ namespace b2bSwgroup.Models
         {
             ApplicationContext db = context.Get<ApplicationContext>();
             ApplicationUserManager manager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            manager.EmailService = new EmailService();
+            manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(options.DataProtectionProvider.Create("ASP.NET Identity"));
             return manager;
         }
     }
