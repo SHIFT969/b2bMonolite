@@ -22,6 +22,13 @@ namespace b2bSwgroup.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
+        private ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+        }
 
         public ActionResult Register()
         {
@@ -132,10 +139,15 @@ namespace b2bSwgroup.Controllers
             ViewBag.returnUrl = returnUrl;
             if(UserManager.FindByName("admin")==null)
             {
+                await RoleManager.CreateAsync(new ApplicationRole() { Name="Admin",Description="Admin" });
+                await RoleManager.CreateAsync(new ApplicationRole() { Name = "User", Description = "User" });
+                await RoleManager.CreateAsync(new ApplicationRole() { Name = "Distributor", Description = "Distributor" });
                 var userAdmin = new ApplicationUser();
                 userAdmin.Email = "kadet635@gmail.com";
                 userAdmin.UserName = "admin";
                 userAdmin.EmailConfirmed = true;
+                userAdmin.DateLastLogin = DateTime.Now;
+                userAdmin.DateRegistration = DateTime.Now;
                 IdentityResult result = await UserManager.CreateAsync(userAdmin, "krak91635");
                 await UserManager.AddToRoleAsync(userAdmin.Id, "User");
                 await UserManager.AddToRoleAsync(userAdmin.Id, "Admin");
