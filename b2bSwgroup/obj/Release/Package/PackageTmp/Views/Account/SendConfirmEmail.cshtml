@@ -1,0 +1,41 @@
+﻿@model b2bSwgroup.Models.ApplicationUser
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Подтверждение Email</h4>
+    </div>
+    <div class="modal-body">
+       @if (Model != null && Model.EmailConfirmed)
+       {
+           <h5>Email подтвержден</h5>
+       }
+       else
+       {
+           using (Html.BeginForm())
+           {
+               <div class="form-horizontal">
+                   <div class="form-group">
+                       @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                       <div class="col-md-8">
+                           @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                           @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <div class="col-md-offset-2 col-md-10">
+                           <input type="submit" value="Отправить" class="btn btn-default" />
+                       </div>
+                   </div>
+               </div>
+           }
+       }
+    </div>
+</div>
+
+<script>
+
+</script>
+
+

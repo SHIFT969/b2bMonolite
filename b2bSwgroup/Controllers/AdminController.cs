@@ -30,8 +30,7 @@ namespace b2bSwgroup.Controllers
         // GET: Admin
         public async Task<ActionResult> Index()
         {
-            await sendTest();
-            ///Lis
+            
             List<UserAdmin> usersAdmin = new List<UserAdmin>();
             var users = UserManager.Users.ToList();
             
@@ -90,20 +89,6 @@ namespace b2bSwgroup.Controllers
             userEdit.OrganizationId = model.OrganizationId;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-        public async Task sendTest()
-        {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            // генерируем токен для подтверждения регистрации
-            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            // создаем ссылку для подтверждения
-            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
-                       protocol: Request.Url.Scheme);
-            // отправка письма
-            await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
-                       "Для завершения регистрации перейдите по ссылке:: <a href=\""
-                                                       + callbackUrl + "\">завершить регистрацию</a>");
         }
     }
 }

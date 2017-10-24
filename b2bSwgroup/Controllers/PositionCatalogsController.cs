@@ -190,10 +190,8 @@ namespace b2bSwgroup.Controllers
             //currencyExcelList.Add("", "be604f9c-4319-e711-80dd-24b6fdf8545c");
             var currentUser = UserManager.FindByNameAsync(User.Identity.Name).Result;
             var oldPositionsCatalog = await db.Positionscatalog.Where(p=>p.DistributorId==currentUser.OrganizationId).ToListAsync();
-            foreach(var pos in oldPositionsCatalog)
-            {
-                db.Positionscatalog.Remove(pos);
-            }
+            db.Positionscatalog.RemoveRange(oldPositionsCatalog);
+          
             List<CrossCategory> myCategories = await db.CrossCategories.Where(c => c.DistributorId == currentUser.OrganizationId).ToListAsync();
             List<PositionCatalog> catalog = new List<PositionCatalog>();
             foreach (string file in Request.Files)
@@ -204,22 +202,34 @@ namespace b2bSwgroup.Controllers
                     Workbook book = new Workbook();
                     book.LoadFromStream(upload.InputStream);
                     Worksheet workSheet = book.Worksheets[0];
-
-                    for (int i = 1; i < workSheet.Rows.Length; i++)
+                    int a = 0;
+                    var rows = workSheet.Rows.ToList();
+                    a = 1;
+                    rows.RemoveAt(0);
+                    //for (int i = 1; i < workSheet.Rows.Length; i++)
+                    foreach(var row in rows)
                     {
+                        //var row = workSheet.Rows[i];
+                        var cellArt = row.Cells[0].Value;
+                        var cellPart = row.Cells[1].Value;
+                        var cellCat = row.Cells[2].Value;
+                        var cellName = row.Cells[3].Value;
+                        var cellPrice = row.Cells[4].Value;
+                        var cellCur = row.Cells[5].Value;
+
                         int? idCat = null;
-                        if(myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[2].Value)!=null)
+                        if(myCategories.FirstOrDefault(c => c.IdentifyCategory == cellCat)!=null)
                         {
-                            idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == workSheet.Rows[i].Cells[2].Value).CategoryId;
+                            idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == cellCat).CategoryId;
                         }
-                        var myIsoCode = workSheet.Rows[i].Cells[5].Value;
+                        var myIsoCode = cellCur;
                         var position = new PositionCatalog()
                         {
-                            Articul = workSheet.Rows[i].Cells[0].Value,
-                            PartNumber = workSheet.Rows[i].Cells[1].Value,
+                            Articul = cellArt,
+                            PartNumber = cellPart,
                             CategoryId = idCat, 
-                            Name = workSheet.Rows[i].Cells[3].Value,
-                            Price = double.Parse(workSheet.Rows[i].Cells[4].Value.Replace(".",",")),
+                            Name = cellName,
+                            Price = double.Parse(cellPrice.Replace(".",",")),
                             Currency = db.Currencies.FirstOrDefault(j => j.IsoCode == myIsoCode),                            
                             DistributorApplicationUserId = currentUser.Id,
                             DistributorId = currentUser.OrganizationId

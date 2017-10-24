@@ -10,7 +10,9 @@
 }
 
 
-
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 
 @using (Html.BeginForm())
 {
@@ -32,8 +34,26 @@
                 </p>               
                 <p><button class="btn btn-primary" type="submit">Войти</button></p>
                 <p>@Html.ActionLink("Зарегистрироваться", "Register")</p>
+                <p>@Html.ActionLink("Подтвердить Email", "SendConfirmEmail",null,new { @class="modal-confirmEmail" })</p>
             </div>            
         </div>
        
     </div>
 }
+
+<script>
+    $('.modal-confirmEmail').click(function (e)
+    {
+        e.preventDefault();
+        $.ajax({
+            url: this.href,
+            success: function (result) {
+                $('#dialogContent').html(result);
+                $('#modDialog').modal('show');
+            },
+            error: function () {
+                alert("Ошибка");
+            }
+        });
+    });
+</script>

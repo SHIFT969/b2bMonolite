@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2017 20:07:14</publishTime>
     </File>
     <File Include="bin/b2bSwgroup.dll">
-      <publishTime>10/20/2017 17:29:18</publishTime>
+      <publishTime>10/22/2017 16:36:45</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>02/03/2015 09:32:26</publishTime>
@@ -354,11 +354,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Account/CompleteChangePassword.cshtml">
       <publishTime>10/19/2017 16:57:49</publishTime>
     </File>
+    <File Include="Views/Account/ConfirmEmail.cshtml">
+      <publishTime>10/22/2017 13:54:08</publishTime>
+    </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>10/17/2017 14:17:44</publishTime>
+      <publishTime>10/22/2017 15:35:17</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>10/17/2017 14:20:06</publishTime>
+    </File>
+    <File Include="Views/Account/SendConfirmEmail.cshtml">
+      <publishTime>10/22/2017 16:18:33</publishTime>
     </File>
     <File Include="Views/Admin/Edit.cshtml">
       <publishTime>03/10/2017 15:35:49</publishTime>
@@ -523,7 +529,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/28/2017 13:59:36</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/16/2017 14:18:53</publishTime>
+      <publishTime>10/22/2017 16:22:53</publishTime>
     </File>
   </ItemGroup>
 </Project>
