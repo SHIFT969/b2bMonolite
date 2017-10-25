@@ -298,3 +298,4 @@ C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.cspr
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.dll
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.pdb
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b23.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b23.resources

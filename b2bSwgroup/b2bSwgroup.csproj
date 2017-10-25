@@ -435,6 +435,7 @@
     <Content Include="Views\Specifications\CurrentSpecsInfo.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\SendConfirmEmail.cshtml" />
+    <Content Include="Views\Account\CreateUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

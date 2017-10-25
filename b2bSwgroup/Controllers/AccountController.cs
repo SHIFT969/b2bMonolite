@@ -64,6 +64,7 @@ namespace b2bSwgroup.Controllers
                 return false;
             }
         }
+        
         [HttpPost]
         public async Task<ActionResult> Register(RegisterModel model)
         {
@@ -124,6 +125,90 @@ namespace b2bSwgroup.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles ="Admin")]
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> CreateUser(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                ApplicationUser user; 
+
+                if(model.userType==UserType.Customer)
+                {
+                    user = new CustomerApplUser { UserName = model.Email, Email = model.Email, DateRegistration = DateTime.Now, DateLastLogin = DateTime.Now };
+                }
+                else
+                {
+                    user = new DistributorApplicationUser { UserName = model.Email, Email = model.Email, DateRegistration = DateTime.Now, DateLastLogin = DateTime.Now };
+                }
+
+                if (!IsValidEmail(user.Email))
+                {
+                    ModelState.AddModelError("", "Email введен некорректно");
+                    return View(model);
+                }
+
+                if (await UserManager.FindByEmailAsync(user.Email) != null)
+                {
+                    ModelState.AddModelError("", "Пользователь с таким Email уже существует");
+                    return View(model);
+                }
+                if (await UserManager.FindByNameAsync(user.UserName) != null)
+                {
+                    ModelState.AddModelError("", "Пользователь с таким именем уже существует");
+                    return View(model);
+                }
+
+
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    if(user is CustomerApplUser)
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "User");
+                    };
+                    if (user is DistributorApplicationUser)
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "Distributor");
+                    };
+
+                    //// генерируем токен для подтверждения регистрации
+                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    ////var code1 = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //// создаем ссылку для подтверждения
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                    //           protocol: Request.Url.Scheme);
+                    //// отправка письма
+                    //await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
+                    //           "Для завершения регистрации перейдите по ссылке:: <a href=\""
+                    //                                           + callbackUrl + "\">завершить регистрацию</a>");
+
+
+                    //ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+                    //                        DefaultAuthenticationTypes.ApplicationCookie);
+                    //AuthenticationManager.SignOut();
+                    //AuthenticationManager.SignIn(new AuthenticationProperties
+                    //{
+                    //    IsPersistent = true
+                    //}, claim);
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            return View(model);
+        }
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -169,11 +254,18 @@ namespace b2bSwgroup.Controllers
                 }
                 else
                 {
-                    //if (!user.EmailConfirmed && (DateTime.Now - user.DateRegistration) > TimeSpan.FromHours(24))
-                    //{
-                    //    ModelState.AddModelError("", "Email не подтвержден, аккаунт заблокирован");
-                    //    return View(model);
-                    //}
+                    if(!UserManager.IsInRole(user.Id,"Admin"))
+                    {
+                        if(!UserManager.IsInRole(user.Id, "Distributor"))
+                        {
+                            if (!user.EmailConfirmed && (DateTime.Now - user.DateRegistration) > TimeSpan.FromHours(24))
+                            {
+                                ModelState.AddModelError("", "Email не подтвержден, аккаунт заблокирован");
+                                return View(model);
+                            }
+                        }
+                    }
+                    
                     ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignOut();

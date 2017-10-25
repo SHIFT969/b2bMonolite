@@ -28,7 +28,7 @@ namespace b2bSwgroup.Controllers
             }
         }
         // GET: Admin
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             
             List<UserAdmin> usersAdmin = new List<UserAdmin>();

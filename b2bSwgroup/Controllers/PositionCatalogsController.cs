@@ -166,28 +166,36 @@ namespace b2bSwgroup.Controllers
             base.Dispose(disposing);
         }
 
-        public async Task<ActionResult> MyPositions()
+        public async Task<ActionResult> RemoveAllCatalog()
+        {
+            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+            var oldPositionsCatalog = await db.Positionscatalog.Where(p => p.DistributorId == currentUser.OrganizationId).ToListAsync();
+            db.Positionscatalog.RemoveRange(oldPositionsCatalog);
+            await db.SaveChangesAsync();
+            return RedirectToAction("MyPositions");
+        }
+
+        [Authorize(Roles ="Distributor")]
+        public async Task<ActionResult> MyPositions(int? page)
         {
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
             
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
             var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a => a.DistributorId == myCompany.Id).ToListAsync();
-            return View(positionscatalog);
+            //return View(positionscatalog);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(positionscatalog.ToPagedList(pageNumber, pageSize));
         }
+        [Authorize(Roles = "Distributor")]
         public ActionResult UploadExcel()
         {
             return View();
         }
+        [Authorize(Roles = "Distributor")]
         [HttpPost]
         public async Task<ActionResult> UploadExcel(FormCollection formCollection)
         {
-
-            //var currencyExcelList = new Dictionary<string, string>();
-            //currencyExcelList.Add("RUB", "6717f5b5-50f1-e411-80f2-c4346bad2214");
-            //currencyExcelList.Add("USD", "ee9e8e27-5e42-e511-8114-c4346bacce50");
-            //currencyExcelList.Add("KZT", "db8bbc3b-bd49-e611-80d6-24b6fdf8545c");
-            //currencyExcelList.Add("EUR", "4be2906f-6509-e711-80dd-24b6fdf8545c");
-            //currencyExcelList.Add("", "be604f9c-4319-e711-80dd-24b6fdf8545c");
             var currentUser = UserManager.FindByNameAsync(User.Identity.Name).Result;
             var oldPositionsCatalog = await db.Positionscatalog.Where(p=>p.DistributorId==currentUser.OrganizationId).ToListAsync();
             db.Positionscatalog.RemoveRange(oldPositionsCatalog);
@@ -200,16 +208,13 @@ namespace b2bSwgroup.Controllers
                 if (upload != null)
                 {
                     Workbook book = new Workbook();
+                    
                     book.LoadFromStream(upload.InputStream);
                     Worksheet workSheet = book.Worksheets[0];
-                    int a = 0;
                     var rows = workSheet.Rows.ToList();
-                    a = 1;
                     rows.RemoveAt(0);
-                    //for (int i = 1; i < workSheet.Rows.Length; i++)
                     foreach(var row in rows)
                     {
-                        //var row = workSheet.Rows[i];
                         var cellArt = row.Cells[0].Value;
                         var cellPart = row.Cells[1].Value;
                         var cellCat = row.Cells[2].Value;
@@ -223,13 +228,22 @@ namespace b2bSwgroup.Controllers
                             idCat = myCategories.FirstOrDefault(c => c.IdentifyCategory == cellCat).CategoryId;
                         }
                         var myIsoCode = cellCur;
+                        double myPrice;
+                        try
+                        {
+                            myPrice = double.Parse(cellPrice.Replace(".", ","));
+                        }
+                        catch
+                        {
+                            myPrice = 0;
+                        }
                         var position = new PositionCatalog()
                         {
                             Articul = cellArt,
                             PartNumber = cellPart,
                             CategoryId = idCat, 
                             Name = cellName,
-                            Price = double.Parse(cellPrice.Replace(".",",")),
+                            Price = myPrice,
                             Currency = db.Currencies.FirstOrDefault(j => j.IsoCode == myIsoCode),                            
                             DistributorApplicationUserId = currentUser.Id,
                             DistributorId = currentUser.OrganizationId

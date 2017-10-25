@@ -1,0 +1,36 @@
+﻿@model b2bSwgroup.Models.RegisterModel
+@{
+    ViewBag.Title = "Создание пользователя";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-5">
+                @Html.ValidationSummary()
+                <p>
+                  @Html.DropDownListFor(model => model.userType,
+   new SelectList(Enum.GetNames(typeof(b2bSwgroup.Models.UserType))))
+                </p>
+                <p>
+                    <label>Email</label><br />
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                </p>
+                <p>
+                    <label>Пароль</label><br />
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                </p>
+                <p>
+                    <label>Подтверждение пароля</label><br />
+                    @Html.PasswordFor(x => x.PasswordConfirm, new { @class = "form-control" })
+                </p>
+                <p><button class="btn btn-primary" type="submit">Создать</button></p>
+            </div>
+        </div>
+
+    </div>
+}
