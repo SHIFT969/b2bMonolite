@@ -244,6 +244,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Migrations\201709111056309_InitialCreate.cs" />
     <Compile Include="Migrations\201709111056309_InitialCreate.Designer.cs">
       <DependentUpon>201709111056309_InitialCreate.cs</DependentUpon>
@@ -364,6 +365,7 @@
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\ModelsForView\ViewResultConfirm.cs" />
     <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\PositionCatalog.cs" />
     <Compile Include="Models\PositionSpecification.cs" />
     <Compile Include="Models\RegisterModel.cs" />
@@ -436,6 +438,7 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\SendConfirmEmail.cshtml" />
     <Content Include="Views\Account\CreateUser.cshtml" />
+    <Content Include="Views\Organization\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

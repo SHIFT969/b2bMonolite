@@ -8,7 +8,7 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
+    <link rel="shortcut icon" href="~/biz2biz (1).ico" type="image/x-icon">
     
 </head>
 <body>
@@ -22,11 +22,15 @@
         </div>    
     }
 }   
+    <div class="container-fluid">        
+    </div>
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="collapse navbar-collapse row">
-                    
-                    <ul id="menu" class="nav navbar-nav col-lg-9">
+                     @*<div class="col-lg-1">
+                         <img height="50" style="margin-left:13px;" src="~/Images/biz2biz_logo.png" />
+                     </div>*@
+                    <ul id="menu" class="nav navbar-nav col-lg-8">                                       
                         <li>@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
                         
                         @if (User.IsInRole("Distributor"))
@@ -52,9 +56,8 @@
                        {
                         <li>@Html.ActionLink("Настройки", "Index", "Cabinet")</li>
                        }
-                    </ul>
-                    
-                    <div class="col-lg-3" style="display:flex;">
+                    </ul>                 
+                    <div class="col-lg-3" style="display:flex; height:100%">
                         @if (User.Identity.IsAuthenticated)
                         {
                             if (User.IsInRole("User"))
@@ -79,9 +82,9 @@
                         {
                             <div style="display:inline-block; margin:auto 0 auto auto">
                                 @Html.ActionLink("Войти", "Login", "Account")
-                            </div>                            
+                            </div>
                         }
-                    </div>                    
+                    </div> 
                 </div>
                 
             </div>

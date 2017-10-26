@@ -1,7 +1,6 @@
-﻿@model PagedList.IPagedList<b2bSwgroup.Models.PositionCatalog>
-@using PagedList.Mvc;
+﻿@model b2bSwgroup.Models.IndexViewModel
+@using b2bSwgroup.Helpers
 @using b2bSwgroup.App_Code;
-
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
@@ -10,23 +9,31 @@
 
 <script src="~/Scripts/bootstrap.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
-<h2>Каталог</h2>
+
 
 
 <div class="success" id="message"></div>
 
 <div class="container-fluid">
+    <h2>Каталог</h2>
     <div class="row">
-        <div class="col-lg-offset-4 col-lg-4" >
-            <input id="search" class="form-control" placeholder="Поиск" />
+        <div class="col-lg-offset-4 col-lg-3" >
+            <input id="keySearch" class="form-control" placeholder="Поиск" value='@Model.KeyWord' />                    
+        </div>
+        <div class="col-lg-1">
+            <input id="search" class="btn btn-primary" type="button" value="Поиск" />    
         </div>
     </div>    
 </div>
 <br />
+@*<div id="loading" style="display:none; color:Red; font-weight:bold;">
+    <p>Идет загрузка...</p>
+</div>*@
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
+
 <div id="positionsContainer" class="container-fluid">
     <div class="row">
         <div class="col-lg-1"><strong>Артикул</strong></div>
@@ -38,7 +45,7 @@
         <div class="col-lg-2"></div>
     </div>
     <hr />
-    @foreach (var item in Model)
+    @foreach (var item in Model.Positions)
     {
         <div class="row">
             <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Articul)</div>
@@ -64,51 +71,50 @@
             </div>
         </div>
         <hr />
-    }
-
-    
+    }    
     <br />
-    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key=Model.KeyWord }))
+    </div>
 </div>
 
 
 <script>
     $('body').on('click', '.modalindex', function (e)
-    //$('.modalindex').click(function (e)
+        //$('.modalindex').click(function (e)
     {
         e.preventDefault();
         $.ajax({
             url: this.href,
-            success: function (result)
-            {
+            success: function (result) {
                 $('#dialogContent').html(result);
                 $('#modDialog').modal('show');
                 UpdateCurrentBasket();
             },
-            error: function()
-            {
+            error: function () {
                 alert("Ошибка");
             }
-            });
+        });
     });
 
-    $('#search').on('input keyup', function ()
+    $('#search').click(function ()
     {
-        var bufKey = this.value;
-        
-        if(this.value.length>0)
+        var bufKey = $('#keySearch').val();
+
+        window.location = "/PositionCatalogs/Index?key=" + bufKey;
+        @*if(this.value.length>0)
         {
             $.ajax({
-                url: '@Url.Action("Search")',
+                url: '@Url.Action("Index")',
                 data: "key=" + bufKey,
                 success: function (data) { $("#positionsContainer").html(data) },
-                error: function () { alert("Ошибка поиска") }
+                error: function () { alert("Ошибка поиска") },
+
             });
         }
         else
         {
             window.location.replace("/PositionCatalogs/Index");
-        }
-    });
+        }*@
+                   });
 </script>

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using b2bSwgroup.Models;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Net;
 
 
 namespace b2bSwgroup.Controllers
@@ -54,21 +55,45 @@ namespace b2bSwgroup.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
-                if(thisUser is CustomerApplUser)
+                var user = await db.Users.FirstOrDefaultAsync(i => i.Id == thisUser.Id);
+                if (thisUser is CustomerApplUser)
                 {
-                    db.Organizations.Add(new Customer() { INN = organization.INN, Name = organization.Name });                    
+                    var org = new Customer() { INN = organization.INN, Name = organization.Name };
+                    db.Customers.Add(org);
+                    user.Organization = org;
                 };
                 if (thisUser is DistributorApplicationUser)
                 {
-                    db.Organizations.Add(new Distributor() { INN = organization.INN, Name = organization.Name });
-                };
-                var user = await db.Users.FirstOrDefaultAsync(i=>i.Id==thisUser.Id);
-                user.Organization = organization;                
+                    var org = new Distributor() { INN = organization.INN, Name = organization.Name };
+                    db.Distributors.Add(org);
+                    user.Organization = org;
+                };         
+                               
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index","Cabinet");
             }
 
             return View(organization);
+        }
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult> Index()
+        {
+            return View(await db.Organizations.ToListAsync());
+        }
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Organization organization = await db.Organizations.FindAsync(id);
+            if (organization == null)
+            {
+                return HttpNotFound();
+            }
+            db.Organizations.Remove(organization);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
     }

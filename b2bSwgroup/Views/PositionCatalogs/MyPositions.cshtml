@@ -1,5 +1,5 @@
-﻿@model PagedList.IPagedList<b2bSwgroup.Models.PositionCatalog>
-@using PagedList.Mvc;
+﻿@model b2bSwgroup.Models.IndexViewModel
+@using b2bSwgroup.Helpers
 @using b2bSwgroup.App_Code;
 @{
     ViewBag.Title = "Мой справочник";
@@ -24,22 +24,28 @@
         <div class="col-lg-1"><strong>Прайс</strong></div>
     </div>
     <hr />
-    @foreach (var item in Model)
+    @foreach (var item in Model.Positions)
     {
         <div class="row">
             <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Articul)</div>
             <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.PartNumber)</div>
             <div class="col-lg-2 ">@Html.DisplayFor(modelItem => item.Category.Name)</div>
             <div class="col-lg-4 ">@Html.DisplayFor(modelItem => item.Name)</div>
-            <div class="col-lg-1 ">@Helpers.SetPrice(item.Price, item.Currency)</div>            
+            <div class="col-lg-1 ">@Helpers.SetPrice(item.Price, item.Currency)</div> 
+            <div class="col-lg-1 ">
+                @Html.ActionLink("Изменить", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+            </div>           
         </div>
         <hr />
     }
 
 
     <br />
-    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("MyPositions", new { page }))
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("MyPositions", new { page = x }))
+    </div>
 </div>
 
 

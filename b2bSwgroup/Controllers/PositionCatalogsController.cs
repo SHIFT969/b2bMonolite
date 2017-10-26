@@ -28,21 +28,28 @@ namespace b2bSwgroup.Controllers
         private ApplicationContext db = new ApplicationContext();
 
         // GET: PositionCatalogs
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int page=1,string key = "")
         {
-            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
-            //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
             int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(positionscatalog.ToPagedList(pageNumber,pageSize));
+            var positionscatalog = await db.Positionscatalog.Where(x=>x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key))
+                .OrderBy(x=>x.Name)
+                .Skip((page-1)*pageSize)
+                .Take(pageSize)
+                .Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(x => x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key)).Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog,KeyWord=key };
+
+            return View(ivm);
         }
-        public async Task<ActionResult> Search(string key, int? page)
+        
+        public async Task<ActionResult> Search(string key, int page=1)
         {
-            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Where(n=>n.Name.Contains(key)).ToListAsync();
-            //var distrUser = db.Users.FirstOrDefault(u=>u.Id==positionscatalog.);
             int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(positionscatalog);
+
+            var positionscatalog = await db.Positionscatalog.Where(n => n.Name.Contains(key)).OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize).Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog };
+            return View(ivm);
         }
 
 
@@ -176,16 +183,15 @@ namespace b2bSwgroup.Controllers
         }
 
         [Authorize(Roles ="Distributor")]
-        public async Task<ActionResult> MyPositions(int? page)
+        public async Task<ActionResult> MyPositions(int page=1)
         {
             ApplicationUser thisUser = await UserManager.FindByNameAsync(User.Identity.Name);
-            
             var myCompany = await db.Organizations.Include(o => o.ApplicationUsers).FirstOrDefaultAsync(o => o.Id == thisUser.OrganizationId);
-            var positionscatalog = await db.Positionscatalog.Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).Include(u=>u.DistributorApplicationUser).Where(a => a.DistributorId == myCompany.Id).ToListAsync();
-            //return View(positionscatalog);
             int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(positionscatalog.ToPagedList(pageNumber, pageSize));
+            var positionscatalog = await db.Positionscatalog.Where(a => a.DistributorId == myCompany.Id).OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize).Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(a => a.DistributorId == myCompany.Id).Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog };           
+            return View(ivm);
         }
         [Authorize(Roles = "Distributor")]
         public ActionResult UploadExcel()
@@ -196,12 +202,13 @@ namespace b2bSwgroup.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadExcel(FormCollection formCollection)
         {
-            var currentUser = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
             var oldPositionsCatalog = await db.Positionscatalog.Where(p=>p.DistributorId==currentUser.OrganizationId).ToListAsync();
             db.Positionscatalog.RemoveRange(oldPositionsCatalog);
-          
+                      
             List<CrossCategory> myCategories = await db.CrossCategories.Where(c => c.DistributorId == currentUser.OrganizationId).ToListAsync();
             List<PositionCatalog> catalog = new List<PositionCatalog>();
+            int countPosition = 0;
             foreach (string file in Request.Files)
             {
                 var upload = Request.Files[file];
@@ -241,10 +248,11 @@ namespace b2bSwgroup.Controllers
                         {
                             Articul = cellArt,
                             PartNumber = cellPart,
-                            CategoryId = idCat, 
+                            CategoryId = idCat,
                             Name = cellName,
                             Price = myPrice,
-                            Currency = db.Currencies.FirstOrDefault(j => j.IsoCode == myIsoCode),                            
+                            Currency = db.Currencies.FirstOrDefault(j => j.IsoCode == myIsoCode),
+
                             DistributorApplicationUserId = currentUser.Id,
                             DistributorId = currentUser.OrganizationId
                         };

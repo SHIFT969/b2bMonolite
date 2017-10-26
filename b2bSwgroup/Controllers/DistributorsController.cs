@@ -19,7 +19,8 @@ namespace b2bSwgroup.Controllers
         // GET: Distributors
         public async Task<ActionResult> Index()
         {
-            return View(await db.Distributors.ToListAsync());
+            var model = await db.Distributors.ToListAsync();
+            return View(model);
         }
 
         // GET: Distributors/Details/5

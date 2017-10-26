@@ -199,7 +199,6 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.M
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b19.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b20.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b21.resources
-C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csprojResolveAssemblyReference.cache
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b22.resources
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\b2bSwgroup.dll.config
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\bin\b2bSwgroup.dll
@@ -299,3 +298,4 @@ C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.dll
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.pdb
 C:\Users\kadet\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b23.resources
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b23.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csprojResolveAssemblyReference.cache

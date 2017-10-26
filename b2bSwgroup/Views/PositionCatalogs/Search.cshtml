@@ -1,7 +1,9 @@
-﻿@model IEnumerable<b2bSwgroup.Models.PositionCatalog>
+﻿@model b2bSwgroup.Models.IndexViewModel
+@using b2bSwgroup.Helpers
+@using b2bSwgroup.App_Code;
 
 
-<div class="row">
+   <div class="row">
     <div class="col-lg-1"><strong>Артикул</strong></div>
     <div class="col-lg-1"><strong>P/N</strong></div>
     <div class="col-lg-2"><strong>Категория</strong></div>
@@ -11,14 +13,14 @@
     <div class="col-lg-2"></div>
 </div>
 <hr />
-@foreach (var item in Model)
+@foreach (var item in Model.Positions)
 {
     <div class="row">
         <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Articul)</div>
         <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.PartNumber)</div>
         <div class="col-lg-2 ">@Html.DisplayFor(modelItem => item.Category.Name)</div>
         <div class="col-lg-4 ">@Html.DisplayFor(modelItem => item.Name)</div>
-        <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Price)</div>
+        <div class="col-lg-1 ">@Helpers.SetPrice(item.Price, item.Currency)</div>
         <div class="col-lg-1 ">
             @if (User.Identity.IsAuthenticated)
                 {
@@ -31,11 +33,16 @@
         </div>
         <div class="col-lg-2">
             @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
-            {
+                {
                 @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
             }
         </div>
     </div>
-    <hr />
+        <hr />
 }
-<br />
+
+
+    <br />
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("Search", new { page = x }))
+    </div>
