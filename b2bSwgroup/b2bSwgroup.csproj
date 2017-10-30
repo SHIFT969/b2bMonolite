@@ -444,6 +444,8 @@
     <Content Include="Views\Organization\Index.cshtml" />
     <Content Include="Views\CallBack\SendMessage.cshtml" />
     <Content Include="Views\CallBack\ConfirmSendMessage.cshtml" />
+    <Content Include="Views\CrossCategories\Load.cshtml" />
+    <Content Include="Views\CrossCategories\EditRow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
