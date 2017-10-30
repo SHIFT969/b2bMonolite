@@ -231,6 +231,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CabinetController.cs" />
+    <Compile Include="Controllers\CallBackController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CrossCategoriesController.cs" />
     <Compile Include="Controllers\CurrenciesController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Controllers\PositionCatalogsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SpecificationsController.cs" />
+    <Compile Include="Controllers\StatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -361,6 +363,7 @@
     <Compile Include="Models\EditUserView.cs" />
     <Compile Include="Models\EmailService.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ModelsForView\CallBackMessage.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\ModelsForView\ViewResultConfirm.cs" />
@@ -439,6 +442,8 @@
     <Content Include="Views\Account\SendConfirmEmail.cshtml" />
     <Content Include="Views\Account\CreateUser.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\CallBack\SendMessage.cshtml" />
+    <Content Include="Views\CallBack\ConfirmSendMessage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -452,6 +457,7 @@
     <Folder Include="Temp\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="Views\Stat\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709111056309_InitialCreate.resx">

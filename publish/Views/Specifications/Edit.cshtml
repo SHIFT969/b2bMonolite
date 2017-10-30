@@ -10,7 +10,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Редактирование спецификации</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -61,7 +60,7 @@
     </div>
 }
 <a href='@Url.Action("Download", new { id = Model.Id })'>
-    <img height="100" src="~/Images/xlsicon.jpg" />
+    <img height="50" src="~/Images/xlsicon.jpg" />
 </a>
 <h4>Позиции по спецификации</h4>
 <table class="table">

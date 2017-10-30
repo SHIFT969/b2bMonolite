@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Main.cshtml";
 }
 
-<h2>Мои спецификации</h2>
 
 @if (User.IsInRole("ComfirmedUser"))
 {
@@ -48,8 +47,8 @@
         </tr>
 
         @foreach (var item in Model)
-        {
-            <tr>
+        {            
+            <tr onclick="editSpec('@Url.Action("Edit", new { @id=item.Id })')">                
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -86,7 +85,6 @@
 <script>
     $('#zakazchik').on('input keyup', function () {
         var bufKey = this.value;
-
         {
             $.ajax({
                 url: '@Url.Action("Search")',
@@ -96,4 +94,9 @@
             });
         }
     });
+
+    function editSpec(link)
+    {
+        window.location=link;
+    }
 </script>
