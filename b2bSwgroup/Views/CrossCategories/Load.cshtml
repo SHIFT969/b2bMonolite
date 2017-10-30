@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Загрузка категорий из Excel";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Загрузка категорий из Excel</h4>
+    </div>
+    <div class="modal-body">
+        <div id="modalFile">
+            <input type="file" name="upload" id="uploadFile" />
+            <br />
+            <button class="btn btn-primary" id="submit_file" onclick="submitFile()">Загрузить</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#submit_file').on('click', function (e) {
+        e.preventDefault();
+        var files = document.getElementById('uploadFile').files;
+
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+
+                for (var x = 0; x < files.length; x++) {
+                    data.append("file" + x, files[x]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadExcel", "CrossCategories")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        $('#modDialog').modal('hide');
+                        location.reload();
+                        //$('#table_content').html(result);
+                        //$('#modalFile').css("display", "none");
+                    },
+                    error: function (xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            } else {
+                alert("Браузер не поддерживает загрузку файлов HTML5!");
+            }
+        }
+    });
+</script>
