@@ -8,6 +8,7 @@
 
 <p>
     @Html.ActionLink("Создать новую", "Create")
+    @Html.ActionLink("Загрузить списком", "Load")
 </p>
 <table class="table">
     <tr>
@@ -19,9 +20,11 @@
         </th>
         <th></th>
     </tr>    
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
+            @*@Html.Action("EditRow", "CrossCategories", new { item.Id });*@
             @Html.DisplayFor(modelItem => item.Category.Name)
         </td>      
         <td>

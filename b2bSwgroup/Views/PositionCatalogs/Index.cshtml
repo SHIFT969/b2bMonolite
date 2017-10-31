@@ -11,17 +11,16 @@
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 
-
 <div class="success" id="message"></div>
 
 <div class="container-fluid">
   
     <div class="row">
-        <div class="col-lg-offset-4 col-lg-3" >
+        <div class="col-lg-offset-4 col-lg-3 col-sm-10  col-xs-8 " >
             <input id="keySearch" class="form-control" placeholder="Поиск" value='@Model.KeyWord' />                    
         </div>
-        <div class="col-lg-1">
-            <input id="search" class="btn btn-primary" type="button" value="Поиск" />    
+        <div class="col-lg-1 col-sm-2 col-xs-4">
+            <input id="search" accesskey="" class="btn btn-primary" type="button" value="Поиск" />    
         </div>
     </div>    
 </div>
@@ -34,26 +33,26 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
-<div id="positionsContainer" class="container-fluid">
+<div id="positionsContainer" class="container-fluid hidden-sm hidden-xs">
     <div class="row">
-        <div class="col-lg-1"><strong>Артикул</strong></div>
-        <div class="col-lg-1"><strong>P/N</strong></div>
-        <div class="col-lg-2"><strong>Категория</strong></div>
-        <div class="col-lg-4"><strong>Наименование</strong></div>
-        <div class="col-lg-1"><strong>Прайс</strong></div>
-        <div class="col-lg-1"><strong>Поставщик</strong></div>
-        <div class="col-lg-2"></div>
+        <div class="col-lg-1 col-md-1"><strong>Артикул</strong></div>
+        <div class="col-lg-1 col-md-1"><strong>P/N</strong></div>
+        <div class="col-lg-2 col-md-2"><strong>Категория</strong></div>
+        <div class="col-lg-4 col-md-4"><strong>Наименование</strong></div>
+        <div class="col-lg-1 col-md-1"><strong>Прайс</strong></div>
+        <div class="col-lg-1 col-md-1"><strong>Поставщик</strong></div>
+        <div class="col-lg-2 col-md-2"></div>
     </div>
     <hr />
     @foreach (var item in Model.Positions)
     {
         <div class="row">
-            <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.Articul)</div>
-            <div class="col-lg-1 ">@Html.DisplayFor(modelItem => item.PartNumber)</div>
-            <div class="col-lg-2 ">@Html.DisplayFor(modelItem => item.Category.Name)</div>
-            <div class="col-lg-4 ">@Html.DisplayFor(modelItem => item.Name)</div>
-            <div class="col-lg-1 ">@Helpers.SetPrice(item.Price,item.Currency)</div>           
-            <div class="col-lg-1 ">
+            <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.Articul)</div>
+            <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.PartNumber)</div>
+            <div class="col-lg-2 col-md-2">@Html.DisplayFor(modelItem => item.Category.Name)</div>
+            <div class="col-lg-4 col-md-4">@Html.DisplayFor(modelItem => item.Name)</div>
+            <div class="col-lg-1 col-md-1">@Helpers.SetPrice(item.Price,item.Currency)</div>           
+            <div class="col-lg-1 col-md-1">
                 @if (User.Identity.IsAuthenticated)
                 {
                     @Html.DisplayFor(modelItem => item.Distributor.Name)
@@ -63,7 +62,7 @@
                     @Html.ActionLink("Зарегистрироваться", "Register", "Account")
                 }
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 col-md-2">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
                 {
                     @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
@@ -75,6 +74,47 @@
     <br />
     <div class="btn-group">
         @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key=Model.KeyWord }))
+    </div>
+</div>
+
+<div id="positionsContainer" class="container-fluid hidden-lg hidden-md">
+   
+    @foreach (var item in Model.Positions)
+    {
+        <div class="row">
+            <div class="col-sm-3 col-xs-5"><strong>Артикул</strong></div>
+            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Articul)</div>
+            <div class="col-sm-3 col-xs-5"><strong>P/N</strong></div>
+            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.PartNumber)</div>
+            <div class="col-sm-3 col-xs-5"><strong>Категория</strong></div>
+            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Category.Name)</div>
+            <div class="col-sm-3 col-xs-5"><strong>Наименование</strong></div>
+            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Name)</div>
+            <div class="col-sm-3 col-xs-5"><strong>Прайс</strong></div>
+            <div class="col-sm-9 col-xs-7">@Helpers.SetPrice(item.Price, item.Currency)</div>
+            <div class="col-sm-3 col-xs-5"><strong>Поставщик</strong></div>
+            <div class="col-sm-9 col-xs-7">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.DisplayFor(modelItem => item.Distributor.Name)
+                }
+                else
+                {
+                    @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                }
+            </div>
+            <div class="col-sm-7 col-xs-10">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                {
+                    @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
+                }
+            </div>
+        </div>
+        <hr />
+    }
+    <br />
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key = Model.KeyWord }))
     </div>
 </div>
 
@@ -99,22 +139,20 @@
 
     $('#search').click(function ()
     {
-        var bufKey = $('#keySearch').val();
-
-        window.location = "/PositionCatalogs/Index?key=" + bufKey;
-        @*if(this.value.length>0)
-        {
-            $.ajax({
-                url: '@Url.Action("Index")',
-                data: "key=" + bufKey,
-                success: function (data) { $("#positionsContainer").html(data) },
-                error: function () { alert("Ошибка поиска") },
-
-            });
+        search();
+    });
+    $(document).keyup(function (e)
+    {
+        e = e || window.event;
+        if (e.keyCode === 13) {
+            search();
         }
-        else
-        {
-            window.location.replace("/PositionCatalogs/Index");
-        }*@
-                   });
+        // Отменяем действие браузера
+        return false;
+    });
+    function search()
+    {
+        var bufKey = $('#keySearch').val();
+        window.location = "/PositionCatalogs/Index?key=" + bufKey;
+    }
 </script>
