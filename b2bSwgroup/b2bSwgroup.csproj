@@ -446,6 +446,8 @@
     <Content Include="Views\CallBack\ConfirmSendMessage.cshtml" />
     <Content Include="Views\CrossCategories\Load.cshtml" />
     <Content Include="Views\CrossCategories\EditRow.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
