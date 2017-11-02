@@ -498,9 +498,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Content Include="Views\Admin\Delete.cshtml" />
     <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <Content Include="Views\Shared\YandexMetrika.cshtml" />
+=======
+>>>>>>> parent of 78420dc... 122
 =======
 >>>>>>> parent of 78420dc... 122
 =======
