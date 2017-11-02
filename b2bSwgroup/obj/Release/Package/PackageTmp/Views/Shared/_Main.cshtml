@@ -8,13 +8,7 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="~/biz2biz (1).ico" type="image/x-icon">  
-    <style>
-        #logo{
-            margin-right:10px;
-        }
-    </style> 
-    @{ Html.RenderPartial("GoogleAnalytics"); }
+    <link rel="shortcut icon" href="~/biz2biz (1).ico" type="image/x-icon">    
 </head>
 <body>
 
@@ -33,7 +27,7 @@
             <div class="container-fluid">
                 <div class="collapse navbar-collapse row">
                     <ul id="menu" class="nav navbar-nav col-lg-8"> 
-                        <li><img id="logo" height="50" src="~/Images/biz2biz_logo.png" /></li>                                      
+                        <li><img height="50" src="~/Images/biz2biz_logo.png" /></li>                                      
                         <li>@Html.ActionLink("Главная", "Index", "PositionCatalogs")</li>   
                         
                         @if (User.IsInRole("Distributor"))

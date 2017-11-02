@@ -36,10 +36,7 @@
                     </td>
                     <td>@userAdmin.User.Email</td>
                     <td>@Html.DisplayFor(model => userAdmin.User.Organization.Name)</td>
-                    <td>
-                        @Html.ActionLink("Редактировать", "Edit", new { userId = userAdmin.User.Id })
-                        @Html.ActionLink("Удалить", "Delete", new { id = userAdmin.User.Id })
-                    </td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { userId = userAdmin.User.Id })</td>
                 </tr>
             }
         }

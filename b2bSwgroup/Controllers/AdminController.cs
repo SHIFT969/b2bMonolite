@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace b2bSwgroup.Controllers
 {
@@ -89,30 +88,6 @@ namespace b2bSwgroup.Controllers
             var userEdit = db.Users.FirstOrDefault(i => i.Id == model.User.Id);
             userEdit.OrganizationId = model.OrganizationId;
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //PositionCatalog positionCatalog = await db.Positionscatalog.FindAsync(id);
-            ApplicationUser userToDelete = await UserManager.FindByIdAsync(id);
-            if (userToDelete == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userToDelete);
-        }
-
-        // POST: PositionCatalogs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
-        {
-            ApplicationUser userToDelete = await UserManager.FindByIdAsync(id);
-            await UserManager.DeleteAsync(userToDelete);           
             return RedirectToAction("Index");
         }
     }

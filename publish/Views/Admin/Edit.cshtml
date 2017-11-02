@@ -1,7 +1,6 @@
 ﻿@model b2bSwgroup.Models.UserAdmin
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Main.cshtml";
 }
 
 <h2>Редактирование пользователя</h2>
@@ -9,51 +8,31 @@
 {
     <div class="form-horizontal">
         @Html.HiddenFor(model => model.User.Id)
+        @Html.EditorFor(model=>model.User.UserName)
+        @Html.EditorFor(model => model.User.Email)
         <div class="form-group">
-            @Html.LabelFor(model => model.User.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.User.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User.UserName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.User.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.User.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.User.OrganizationId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-8">
+            @Html.LabelFor(model => model.User.OrganizationId, "OrganizationId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.DropDownList("OrganizationId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.User.OrganizationId, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            @foreach (var role in ViewBag.AllRoles)
-            {
-                <div class="col-md-10 col-md-offset-2">
-                    @Html.CheckBox("RoleId", Model.Roles.Contains(role as b2bSwgroup.Models.ApplicationRole), new { @value = role.Id }) @role.Description
-                </div>
-            }
-           
-            @*<table>
-                <tbody>
-                    @foreach (var role in ViewBag.AllRoles)
-                    {
-                        <tr>
-                            <td>
-                               
-                            </td>
-                            <td>
-                                
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>*@  
-        </div>       
+
+        <table>
+            <tbody>
+                @foreach (var role in ViewBag.AllRoles)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBox("RoleId",Model.Roles.Contains(role as b2bSwgroup.Models.ApplicationRole),new { @value = role.Id } )                           
+                        </td>
+                        <td>
+                            @role.Description
+                        </td>                        
+                    </tr>                    
+                }
+            </tbody>
+        </table>  
                 
         <button type="submit">Сохранить</button>
     </div>
