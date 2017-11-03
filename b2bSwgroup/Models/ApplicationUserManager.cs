@@ -4,7 +4,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System.Threading.Tasks;
 using System.Linq;
-using b2bSwgroup.Models.ModelsForView;
 
 namespace b2bSwgroup.Models
 {
