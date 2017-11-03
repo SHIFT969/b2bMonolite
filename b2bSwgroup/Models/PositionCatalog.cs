@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Lucene.Net.Linq;
 
 namespace b2bSwgroup.Models
 {
+    
     public class PositionCatalog
     {
         public int Id { get; set; }
+       
         [Display(Name ="Артикул")]
         public string Articul { get; set; }
         [Display(Name="P/N")]

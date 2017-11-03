@@ -112,6 +112,12 @@ namespace b2bSwgroup.Controllers
                                "<p><a href=\""+ callbackUrl + "\">завершить регистрацию</a></p>"+
                                "Логин: "+user.UserName);
 
+                    await UserManager.SendEmailAsync(UserManager.FindByName("admin").Id, "Новый пользователь зарегистрирован",
+                               "<p>Зарегистрирован новый пользователь Email "+user.Email+"</p>");
+
+                    await UserManager.SendEmailAsync(UserManager.FindByName("fedorovi@gmail.com").Id, "Новый пользователь зарегистрирован",
+                               "<p>Зарегистрирован новый пользователь Email " + user.Email + "</p>");
+
                     ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignOut();
