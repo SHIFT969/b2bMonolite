@@ -27,7 +27,7 @@ namespace b2bSwgroup.Controllers
         }
         private ApplicationContext db = new ApplicationContext();
 
-        // GET: PositionCatalogs
+        // GET: PositionCatalogsj
         public async Task<ActionResult> Index(int page=1,string key = "")
         {
             int pageSize = 10;
