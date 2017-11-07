@@ -493,3 +493,15 @@ C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.csproj.GenerateResource.Cache
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.dll
 C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.pdb
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Common.Logging.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Lucene.Net.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Lucene.Net.Linq.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Remotion.Linq.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\SimpleLucene.dll
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Common.Logging.pdb
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Common.Logging.xml
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Lucene.Net.pdb
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Lucene.Net.xml
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Lucene.Net.Linq.xml
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\bin\Remotion.Linq.xml
