@@ -68,6 +68,11 @@ namespace b2bSwgroup.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegisterModel model)
         {
+            //var r = "<p>Здравствуйте!</p><p>Благодарим вас за регистрацию на портале Biz2Biz.online</p>" +
+            //                   "<p>Для того, чтобы продолжить и использовать полный доступ к функциям системы активируйте учетную запись по ссылке.</p>" +
+            //                   "<p><a href=\"" +"vk.com" + "\">завершить регистрацию</a></p>" +
+            //                   "Логин" ;
+            //int a = 0;
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new CustomerApplUser { UserName = model.Email, Email = model.Email,DateRegistration=DateTime.Now,DateLastLogin=DateTime.Now };
@@ -101,10 +106,17 @@ namespace b2bSwgroup.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
                                protocol: Request.Url.Scheme);
                     // отправка письма
-                    await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты",
-                               "Для завершения регистрации перейдите по ссылке:: <a href=\""
-                                                               + callbackUrl + "\">завершить регистрацию</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Подтверждение электронной почты biz2biz",
+                               "<p>Здравствуйте!</p><p>Благодарим вас за регистрацию на портале Biz2Biz.online</p>"+
+                               "<p>Для того, чтобы продолжить и использовать полный доступ к функциям системы активируйте учетную запись по ссылке.</p>"+
+                               "<p><a href=\""+ callbackUrl + "\">завершить регистрацию</a></p>"+
+                               "Логин: "+user.UserName);
 
+                    await UserManager.SendEmailAsync(UserManager.FindByName("admin").Id, "Новый пользователь зарегистрирован",
+                               "<p>Зарегистрирован новый пользователь Email "+user.Email+"</p>");
+
+                    await UserManager.SendEmailAsync(UserManager.FindByName("fedorovi@gmail.com").Id, "Новый пользователь зарегистрирован",
+                               "<p>Зарегистрирован новый пользователь Email " + user.Email + "</p>");
 
                     ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
@@ -330,7 +342,7 @@ namespace b2bSwgroup.Controllers
             return View();
         }
         [HttpPost]
-        public async Task SendConfirmEmail(ApplicationUser user)
+        public async Task<ActionResult> SendConfirmEmail(ApplicationUser user)
         {
             var myUser = await UserManager.FindByEmailAsync(user.Email);
             if(myUser!=null)
@@ -342,11 +354,13 @@ namespace b2bSwgroup.Controllers
                 var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = myUser.Id, code = code },
                            protocol: Request.Url.Scheme);
                 // отправка письма
-                await UserManager.SendEmailAsync(myUser.Id, "Подтверждение электронной почты",
-                           "Для завершения регистрации перейдите по ссылке:: <a href=\""
-                                                           + callbackUrl + "\">завершить регистрацию</a>");
+                await UserManager.SendEmailAsync(myUser.Id, "Подтверждение электронной почты biz2biz",
+                               "<p>Здравствуйте!</p><p>Благодарим вас за регистрацию на портале Biz2Biz.online</p>" +
+                               "<p>Для того, чтобы продолжить и использовать полный доступ к функциям системы активируйте учетную запись по ссылке.</p>" +
+                               "<p><a href=\"" + callbackUrl + "\">завершить регистрацию</a></p>" +
+                               "Логин: " + myUser.UserName);
             }
-            RedirectToAction("Login");
+            return RedirectToAction("Login");
         }
 
     }

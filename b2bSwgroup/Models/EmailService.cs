@@ -15,8 +15,8 @@ namespace b2bSwgroup.Models
         public Task SendAsync(IdentityMessage message)
         {
             // настройка логина, пароля отправителя
-            var from = "specification@biz2biz.online";
-            var pass = "As12345678";
+            var from = "register@biz2biz.online";
+            var pass = "As&%123409876";
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
             SmtpClient client = new SmtpClient("smtp.yandex.ru", 25);

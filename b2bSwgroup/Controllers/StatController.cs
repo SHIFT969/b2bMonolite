@@ -15,29 +15,31 @@ namespace b2bSwgroup.Controllers
             int posits = 0;
             int Specs = 0;
 
-            if(DateTime.Now.Hour <= 7)
+            if (DateTime.Now.Hour <= 7)
             {
                 Random rand = new Random();
-                posits = rand.Next(0,5);
+                posits = (int)(DateTime.Now.Hour * 1.3);
             }
-            if (DateTime.Now.Hour > 7 && DateTime.Now.Hour<=14)
+            if (DateTime.Now.Hour > 7 && DateTime.Now.Hour <= 14)
             {
                 Random rand = new Random();
-                posits = rand.Next(3, 10);
-                Specs = rand.Next(2,6);
+                posits = (int)(DateTime.Now.Hour * 1.3);
+                Specs = (int)(DateTime.Now.Hour * 0.5);
             }
             if (DateTime.Now.Hour > 14 && DateTime.Now.Hour <= 18)
             {
                 Random rand = new Random();
-                posits = rand.Next(10, 30);
-                Specs = rand.Next(5,10);
+                posits = (int)(DateTime.Now.Hour * 1.2);
+                Specs = (int)(DateTime.Now.Hour * 0.5);
             }
             if (DateTime.Now.Hour > 18 && DateTime.Now.Hour <= 23)
             {
                 Random rand = new Random();
-                posits = rand.Next(5, 20);
-                Specs = rand.Next(1, 4);
+                posits = (int)(DateTime.Now.Hour * 0.5);
+                Specs = (int)(DateTime.Now.Hour * 0.1);
             }
+
+
 
             string message = "За последний час найдено позиций: " + posits.ToString() + ", подготовлено спецификаций:" + Specs.ToString();
 
