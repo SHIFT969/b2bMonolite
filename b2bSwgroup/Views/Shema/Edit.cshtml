@@ -1,0 +1,99 @@
+﻿@model b2bSwgroup.Models.Shema
+
+@{
+    ViewBag.Title = "Редактирвоание схемы";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+<h2>Редактирование схемы</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DistributorId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sheet, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Sheet, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sheet, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FistRow, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.FistRow, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FistRow, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyColumn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.KeyColumn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.KeyColumn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="container-fluid hidden-sm hidden-xs">
+            <div class="row">
+                <div class="col-md-2"> </div>
+                <div class="col-lg-2 col-md-1"><strong>Колонка</strong></div>
+                <div class="col-lg-2 col-md-1"><strong>Номер колонки</strong></div>
+                <div class="col-lg-2 col-md-2"><strong>Значение по умолчанию</strong></div>
+                <div class="col-lg-2 col-md-1"><strong>Значение из родителя (указать уровень)</strong></div>
+            </div>
+            @for (int i = 0; i < Model.ShemaMembers.Count(); i++)
+            {
+                <div class="row">
+                    @Html.HiddenFor(model => model.ShemaMembers[i].Id)
+                    @Html.HiddenFor(model => model.ShemaMembers[i].ShemaId)
+                    <div class="col-md-2"> </div>
+                    <div class="col-lg-2 col-md-1">
+                        @Html.EditorFor(model => model.ShemaMembers[i].Name, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                    </div>
+                    <div class="col-lg-2 col-md-1">
+                        @Html.EditorFor(model => model.ShemaMembers[i].Column, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        @Html.EditorFor(model => model.ShemaMembers[i].DefaultValue, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="col-lg-2 col-md-1">
+                        @Html.EditorFor(model => model.ShemaMembers[i].ParentLevel, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            }
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IgnoreValue, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IgnoreValue, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IgnoreColumn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IgnoreColumn, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить схему" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}

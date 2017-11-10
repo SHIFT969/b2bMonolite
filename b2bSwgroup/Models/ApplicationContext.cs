@@ -19,6 +19,7 @@ namespace b2bSwgroup.Models
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<CrossCategory> CrossCategories { get; set; }
+        public DbSet<Shema> Shemas { get; set; }
         //public DbSet<DistributorApplicationUser> DistributorApplicationUsers { get; }
         //public DbSet<CustomerApplUser> CustomerApplUsers { get; }
 
