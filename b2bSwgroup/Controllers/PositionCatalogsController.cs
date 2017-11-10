@@ -8,10 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using b2bSwgroup.Models;
+using b2bSwgroup.Models.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Spire.Xls;
 using PagedList.Mvc;
 using PagedList;
+using System.IO;
 
 namespace b2bSwgroup.Controllers
 {
@@ -30,15 +32,33 @@ namespace b2bSwgroup.Controllers
         // GET: PositionCatalogsj
         public async Task<ActionResult> Index(int page=1,string key = "")
         {
+            IEnumerable<PositionCatalog> positionTest = new List<PositionCatalog>();
+            if (!Directory.Exists(SearchPositionCatalogService._luceneDir)) Directory.CreateDirectory(SearchPositionCatalogService._luceneDir);
+            if (!System.IO.Directory.EnumerateFiles(SearchPositionCatalogService._luceneDir).Any())
+            {
+                SearchPositionCatalogService.AddUpdateLuceneIndex(db.Positionscatalog);
+            }
+            if (string.IsNullOrEmpty(key))
+            {
+                positionTest = SearchPositionCatalogService.GetAllIndexRecords();
+            }
+            else
+            {
+                positionTest = SearchPositionCatalogService.SearchDefault(key);
+            }
             int pageSize = 10;
-            var positionscatalog = await db.Positionscatalog.Where(x=>x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key))
-                .OrderBy(x=>x.Name)
-                .Skip((page-1)*pageSize)
-                .Take(pageSize)
-                .Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(x => x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key)).Count() };
-            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog,KeyWord=key };
+            //var positionscatalog = await db.Positionscatalog.Where(x=>x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key))
+            //    .OrderBy(x=>x.Name)
+            //    .Skip((page-1)*pageSize)
+            //    .Take(pageSize)
+            //    .Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
+            //PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(x => x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key)).Count() };
+            //IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog,KeyWord=key };
 
+
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = positionTest.Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionTest.Skip((page - 1) * pageSize).Take(pageSize), KeyWord = key };
+            
             return View(ivm);
         }
         
