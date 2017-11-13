@@ -15,6 +15,7 @@ using Lucene.Net.Search.Spans;
 using Lucene.Net.Search.Payloads;
 using Lucene.Net.Search.Function;
 using Lucene.Net.Store;
+
 using System.Xml;
 using System.Data;
 using System.Data.Entity;
@@ -40,7 +41,7 @@ namespace b2bSwgroup.Models.Services
                 return _directoryTemp;
             }
         }
-        private static void _addToLuceneIndex(PositionCatalog position, IndexWriter writer)
+        private static void _addToLuceneIndex(PositionCatalogIndexView position, IndexWriter writer)
         {
             //удалить старую запись индекса
             var searchQuery = new TermQuery(new Term("Id",position.Id.ToString()));
@@ -51,12 +52,16 @@ namespace b2bSwgroup.Models.Services
             //Добавление поля lucene сопоставленые с полями db
             doc.Add(new Field("Id",position.Id.ToString(),Field.Store.YES,Field.Index.NOT_ANALYZED));
             doc.Add(new Field("Name",position.Name,Field.Store.YES,Field.Index.ANALYZED));
-
+            doc.Add(new Field("Articul", position.Articul, Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("PartNumber", position.PartNumber, Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("Category", position.Category, Field.Store.YES, Field.Index.ANALYZED));
+            doc.Add(new Field("Price", position.Price, Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("Distributor", position.Distributor, Field.Store.YES, Field.Index.ANALYZED));
             //добавление записи к индексу
             writer.AddDocument(doc);
         }
 
-        public static void AddUpdateLuceneIndex(IEnumerable<PositionCatalog> positionsCatalog)
+        public static void AddUpdateLuceneIndex(IEnumerable<PositionCatalogIndexView> positionsCatalog)
         {
             //Иницилизация Lucene
             var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
@@ -70,9 +75,9 @@ namespace b2bSwgroup.Models.Services
                 writer.Dispose();
             }
         }
-        public static void AddUpdateLuceneIndex(PositionCatalog position)
+        public static void AddUpdateLuceneIndex(PositionCatalogIndexView position)
         {
-            AddUpdateLuceneIndex(new List<PositionCatalog> { position });
+            AddUpdateLuceneIndex(new List<PositionCatalogIndexView> { position });
         }
 
         public static void ClearLuceneIndexRecord(int record_id)
@@ -120,19 +125,25 @@ namespace b2bSwgroup.Models.Services
             }
         }
 
-        private static PositionCatalog _mapLuceneDocumentToData(Document doc)
+        private static PositionCatalogIndexView _mapLuceneDocumentToData(Document doc)
         {
-            return new PositionCatalog
+            return new PositionCatalogIndexView
             {
                 Id = Convert.ToInt32(doc.Get("Id")),
-                Name = doc.Get("Name")                
+                Name = doc.Get("Name"),
+                Articul = doc.Get("Articul"),
+                Category = doc.Get("Category"),
+                Distributor = doc.Get("Distributor"),
+                PartNumber = doc.Get("PartNumber"),
+                Price = doc.Get("Price"),
+                Quantity = doc.Get("Quantity")  
             };
         }
-        private static IEnumerable<PositionCatalog> _mapLuceneToDataList(IEnumerable<Document> hits)
+        private static IEnumerable<PositionCatalogIndexView> _mapLuceneToDataList(IEnumerable<Document> hits)
         {
             return hits.Select(_mapLuceneDocumentToData).ToList();
         }
-        private static IEnumerable<PositionCatalog> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        private static IEnumerable<PositionCatalogIndexView> _mapLuceneToDataList(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {
             return hits.Select(hit => _mapLuceneDocumentToData(searcher.Doc(hit.Doc))).ToList();
         }
@@ -150,13 +161,14 @@ namespace b2bSwgroup.Models.Services
             }
             return query;
         }
+        
 
-        private static IEnumerable<PositionCatalog> _search(string searchQuery, string searchField="")
+        private static IEnumerable<PositionCatalogIndexView> _search(string searchQuery, string searchField="")
         {
             //Валидация
             if(string.IsNullOrEmpty(searchQuery.Replace("*","").Replace("?","")))
             {
-                return new List<PositionCatalog>();
+                return new List<PositionCatalogIndexView>();
             }
 
             using (var searcher = new IndexSearcher(_directory, false))
@@ -186,11 +198,11 @@ namespace b2bSwgroup.Models.Services
             }
         }
 
-        public static IEnumerable<PositionCatalog> Search(string input, string fieldName = "")
+        public static IEnumerable<PositionCatalogIndexView> Search(string input, string fieldName = "")
         {
             if(string.IsNullOrEmpty(input))
             {
-                return new List<PositionCatalog>();
+                return new List<PositionCatalogIndexView>();
             }
             var terms = input.Trim().Replace("-", " ").Split(' ').Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
             input = string.Join(" ",terms);
@@ -198,15 +210,15 @@ namespace b2bSwgroup.Models.Services
             return _search(input, fieldName);
         }
 
-        public static IEnumerable<PositionCatalog> SearchDefault(string input, string fieldName="")
+        public static IEnumerable<PositionCatalogIndexView> SearchDefault(string input, string fieldName="")
         {
-            return string.IsNullOrEmpty(input) ? new List<PositionCatalog>() : _search(input,fieldName);
+            return string.IsNullOrEmpty(input) ? new List<PositionCatalogIndexView>() : _search(input,fieldName);
         }
-        public static IEnumerable<PositionCatalog> GetAllIndexRecords()
+        public static IEnumerable<PositionCatalogIndexView> GetAllIndexRecords()
         {
             if(!System.IO.Directory.EnumerateFiles(_luceneDir).Any())
             {
-                return new List<PositionCatalog>();
+                return new List<PositionCatalogIndexView>();
             }
             var searcher = new IndexSearcher(_directory,false);
             var reader = IndexReader.Open(_directory,false);

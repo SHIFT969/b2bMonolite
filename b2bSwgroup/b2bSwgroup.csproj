@@ -392,6 +392,7 @@
     <Compile Include="Models\EmailService.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ModelsForView\CallBackMessage.cs" />
+    <Compile Include="Models\ModelsForView\PositionCatalogIndexView.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\ModelsForView\ViewResultConfirm.cs" />
