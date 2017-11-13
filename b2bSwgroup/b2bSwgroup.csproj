@@ -381,6 +381,10 @@
     <Compile Include="Migrations\201711100908122_b2b24.Designer.cs">
       <DependentUpon>201711100908122_b2b24.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131255117_b2b25.cs" />
+    <Compile Include="Migrations\201711131255117_b2b25.Designer.cs">
+      <DependentUpon>201711131255117_b2b25.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -581,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711100908122_b2b24.resx">
       <DependentUpon>201711100908122_b2b24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131255117_b2b25.resx">
+      <DependentUpon>201711131255117_b2b25.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

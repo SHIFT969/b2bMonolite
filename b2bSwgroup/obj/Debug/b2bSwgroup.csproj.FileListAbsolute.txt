@@ -720,3 +720,5 @@ C:\Users\imaslov\Source\Repos\b2bMonolite2\b2bSwgroup\obj\Debug\b2bSwgroup.pdb
 C:\Users\imaslov\Source\Repos\b2bMonolite2\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b23.resources
 C:\Users\imaslov\Source\Repos\b2bMonolite2\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b24.resources
 >>>>>>> pr/2
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b24.resources
+C:\Users\uvoronin\Documents\GitHub\b2bMonolite\b2bMonolite\b2bSwgroup\obj\Debug\b2bSwgroup.Migrations.b2b25.resources

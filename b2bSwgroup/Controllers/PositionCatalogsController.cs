@@ -11,15 +11,12 @@ using b2bSwgroup.Models;
 using b2bSwgroup.Models.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Spire.Xls;
-<<<<<<< HEAD
 using System.IO;
 using AutoMapper;
 using b2bSwgroup.Models.ModelsForView;
-=======
 using PagedList.Mvc;
 using PagedList;
 using System.Text.RegularExpressions;
->>>>>>> pr/2
 
 namespace b2bSwgroup.Controllers
 {
