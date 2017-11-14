@@ -1,0 +1,132 @@
+﻿@model b2bSwgroup.Models.ModelsForView.RequestDistributorView
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Заявка на регистрацию</title>
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/biz2biz (1).ico" type="image/x-icon">  
+    <style>
+        body
+        {
+            background-image: url('../../Images/distrBackground.PNG');
+                background-size: cover;
+                background-position: center center;
+                height: 100%;  
+        }
+       .a 
+       {
+            background-image: -moz-linear-gradient(top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+            background-image: -webkit-linear-gradient(top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+            background-image: -o-linear-gradient(top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+            background-image: -ms-linear-gradient(top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+            background-image: linear-gradient(top, rgba(26,40,120,0.70), rgba(10,143,196,0.70));
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#4c1a2878', endColorstr='#4c0a8fc4');
+                  
+            margin: 0;
+            min-height: 100vh;
+       }
+       .content
+       {
+           margin:0;
+           color:white;
+           text-align:center;   
+       }
+       .head
+       {
+             font-size: 68px;
+             font-family: 'Roboto',sans-serif;
+             font-weight: 600;
+       }
+       .foot
+       {
+           font-size:20px;
+           font-family: 'Roboto',sans-serif;
+       }
+      
+    </style>
+    
+</head>
+<body>
+    <div class="a">
+        <div class="content">
+            @*<br />*@
+            <div class="head">
+                <strong>Получите доступ <br /> к новым партнерам</strong>
+            </div>
+            <div class="foot">
+                Самый простой и удобный способ распространения цен на вашу продукцию. <br />
+                Все участники Biz2Biz.Online - ваши потенциальные партнеры.
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Отправить" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(window).ready(function ()
+    {
+        //$('.a').css("height", "100%");
+    });
+</script>

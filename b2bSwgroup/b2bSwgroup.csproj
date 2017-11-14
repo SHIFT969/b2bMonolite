@@ -234,6 +234,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Images\biz2biz_logo.png" />
+    <Content Include="Images\distrBackground.PNG" />
     <Content Include="Images\spec-icon.png" />
     <Content Include="Images\xlsicon.jpg" />
     <Content Include="Scripts\bootstrap.js" />
@@ -403,6 +404,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ModelsForView\CallBackMessage.cs" />
     <Compile Include="Models\ModelsForView\PositionCatalogIndexView.cs" />
+    <Compile Include="Models\ModelsForView\RequestDistributorView.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\ModelsForView\ViewResultConfirm.cs" />
@@ -491,6 +493,7 @@
     <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <Content Include="Views\Shared\YandexMetrika.cshtml" />
     <Content Include="Views\Shema\Edit.cshtml" />
+    <Content Include="Views\Account\RequestDistributor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

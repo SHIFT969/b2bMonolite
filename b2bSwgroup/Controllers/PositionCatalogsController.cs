@@ -351,7 +351,19 @@ namespace b2bSwgroup.Controllers
                 }
             }
             db.Positionscatalog.AddRange(catalog);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+                Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionCatalogIndexView>().ForMember("Distributor", opt => opt.MapFrom(c => c.Distributor.Name))
+                      .ForMember("Category", opt => opt.MapFrom(c => c.Category.Name))
+                      .ForMember("Price", opt => opt.MapFrom(c => setPrice(c.Price, c.Currency))));
+                SearchPositionCatalogService.AddUpdateLuceneIndex(Mapper.Map<IEnumerable<PositionCatalog>, IEnumerable<PositionCatalogIndexView>>(catalog));
+            }
+            catch
+            {
+
+            }
+            
             return RedirectToAction("MyPositions");
         }
 
