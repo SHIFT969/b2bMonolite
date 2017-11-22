@@ -411,7 +411,7 @@ namespace b2bSwgroup.Controllers
                         if (i >= shema.FistRow - 1) // если пошла таблица
                         {
                             CheckLevels(shema, row); // проверит, нужно ли перезаписать уровни
-                            if (CheckForIgnore(shema, row))
+                            if (shema.IgnoreColumn > 0 && CheckForIgnore(shema, row))
                                 continue;
 
                             if (row.Length >= shema.KeyColumn - 1 // если ключевая колонка по индексу в массиве
