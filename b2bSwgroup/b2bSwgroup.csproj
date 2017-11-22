@@ -234,6 +234,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Images\biz2biz_logo.png" />
+    <Content Include="Images\distrBackground.PNG" />
     <Content Include="Images\spec-icon.png" />
     <Content Include="Images\xlsicon.jpg" />
     <Content Include="Scripts\bootstrap.js" />
@@ -381,6 +382,10 @@
     <Compile Include="Migrations\201711100908122_b2b24.Designer.cs">
       <DependentUpon>201711100908122_b2b24.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131255117_b2b25.cs" />
+    <Compile Include="Migrations\201711131255117_b2b25.Designer.cs">
+      <DependentUpon>201711131255117_b2b25.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\ApplicationRole.cs" />
@@ -398,6 +403,8 @@
     <Compile Include="Models\EmailService.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ModelsForView\CallBackMessage.cs" />
+    <Compile Include="Models\ModelsForView\PositionCatalogIndexView.cs" />
+    <Compile Include="Models\ModelsForView\RequestDistributorView.cs" />
     <Compile Include="Models\ModelsForView\ViewForAddPosition.cs" />
     <Compile Include="Models\ModelsForView\ViewResetPassword.cs" />
     <Compile Include="Models\ModelsForView\ViewResultConfirm.cs" />
@@ -486,6 +493,7 @@
     <Content Include="Views\Shared\GoogleAnalytics.cshtml" />
     <Content Include="Views\Shared\YandexMetrika.cshtml" />
     <Content Include="Views\Shema\Edit.cshtml" />
+    <Content Include="Views\Account\RequestDistributor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -495,6 +503,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="IndexLucene\" />
     <Folder Include="Models\Interfaces\" />
     <Folder Include="Temp\" />
     <Folder Include="Views\Default\" />
@@ -579,6 +588,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711100908122_b2b24.resx">
       <DependentUpon>201711100908122_b2b24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131255117_b2b25.resx">
+      <DependentUpon>201711131255117_b2b25.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using b2bSwgroup.Models.ModelsForView;
 
 namespace b2bSwgroup.Models
 {
@@ -17,6 +18,13 @@ namespace b2bSwgroup.Models
     }
 
     public class IndexViewModel
+    {
+        public IEnumerable<PositionCatalogIndexView> Positions { get; set; }
+        public PageInfo PageInfo { get; set; }
+        public string KeyWord { get; set; }
+    }
+
+    public class MyPositionsViewModel
     {
         public IEnumerable<PositionCatalog> Positions { get; set; }
         public PageInfo PageInfo { get; set; }

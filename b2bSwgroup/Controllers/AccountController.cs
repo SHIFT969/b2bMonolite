@@ -30,6 +30,25 @@ namespace b2bSwgroup.Controllers
             }
         }
 
+        public ActionResult RequestDistributor()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> RequestDistributor(RequestDistributorView model)
+        {
+            if(ModelState.IsValid)
+            {
+                await UserManager.SendEmailAsync(UserManager.FindByName("admin").Id, "Новая заявка на регистрацию поставщика",
+                               model.ToString());
+
+                await UserManager.SendEmailAsync(UserManager.FindByName("fedorovi@gmail.com").Id, "Новая заявка на регистрацию поставщика",
+                           model.ToString());
+                return RedirectToAction("Index","PositionCatalogs");
+            }
+            return View(model);
+        }
+
         public ActionResult Register()
         {
             return View();

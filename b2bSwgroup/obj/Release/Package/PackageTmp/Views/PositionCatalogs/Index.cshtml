@@ -32,91 +32,102 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-
-<div id="positionsContainer" class="container-fluid hidden-sm hidden-xs">
-    <div class="row">
-        <div class="col-lg-1 col-md-1"><strong>Артикул</strong></div>
-        <div class="col-lg-1 col-md-1"><strong>P/N</strong></div>
-        <div class="col-lg-2 col-md-2"><strong>Категория</strong></div>
-        <div class="col-lg-4 col-md-4"><strong>Наименование</strong></div>
-        <div class="col-lg-1 col-md-1"><strong>Прайс</strong></div>
-        <div class="col-lg-1 col-md-1"><strong>Поставщик</strong></div>
-        <div class="col-lg-2 col-md-2"></div>
-    </div>
-    <hr />
-    @foreach (var item in Model.Positions)
-    {
+@if (Model.Positions.Count() > 0)
+{
+    <p>Данные актуальны на @DateTime.Now.ToShortDateString()</p>
+    <div id="positionsContainer" class="container-fluid hidden-sm hidden-xs">
         <div class="row">
-            <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.Articul)</div>
-            <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.PartNumber)</div>
-            <div class="col-lg-2 col-md-2">@Html.DisplayFor(modelItem => item.Category.Name)</div>
-            <div class="col-lg-4 col-md-4">@Html.DisplayFor(modelItem => item.Name)</div>
-            <div class="col-lg-1 col-md-1">@Helpers.SetPrice(item.Price,item.Currency)</div>           
-            <div class="col-lg-1 col-md-1">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @Html.DisplayFor(modelItem => item.Distributor.Name)
-                }
-                else
-                {
-                    @Html.ActionLink("Зарегистрироваться", "Register", "Account")
-                }
-            </div>
-            <div class="col-lg-2 col-md-2">
-                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
-                {
-                    @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
-                }
-            </div>
+            <div class="col-lg-1 col-md-1"><strong>Артикул</strong></div>
+            <div class="col-lg-1 col-md-1"><strong>P/N</strong></div>
+            <div class="col-lg-2 col-md-2"><strong>Категория</strong></div>
+            <div class="col-lg-4 col-md-4"><strong>Наименование</strong></div>
+            <div class="col-lg-1 col-md-1"><strong>Прайс</strong></div>
+            <div class="col-lg-1 col-md-1"><strong>Поставщик</strong></div>
+            <div class="col-lg-2 col-md-2"></div>
         </div>
         <hr />
-    }    
-    <br />
-    <div class="btn-group">
-        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key=Model.KeyWord }))
-    </div>
-</div>
-
-<div id="positionsContainer" class="container-fluid hidden-lg hidden-md">
-   
-    @foreach (var item in Model.Positions)
-    {
-        <div class="row">
-            <div class="col-sm-3 col-xs-5"><strong>Артикул</strong></div>
-            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Articul)</div>
-            <div class="col-sm-3 col-xs-5"><strong>P/N</strong></div>
-            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.PartNumber)</div>
-            <div class="col-sm-3 col-xs-5"><strong>Категория</strong></div>
-            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Category.Name)</div>
-            <div class="col-sm-3 col-xs-5"><strong>Наименование</strong></div>
-            <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Name)</div>
-            <div class="col-sm-3 col-xs-5"><strong>Прайс</strong></div>
-            <div class="col-sm-9 col-xs-7">@Helpers.SetPrice(item.Price, item.Currency)</div>
-            <div class="col-sm-3 col-xs-5"><strong>Поставщик</strong></div>
-            <div class="col-sm-9 col-xs-7">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @Html.DisplayFor(modelItem => item.Distributor.Name)
-                }
-                else
-                {
-                    @Html.ActionLink("Зарегистрироваться", "Register", "Account")
-                }
+        @foreach (var item in Model.Positions)
+        {
+            <div class="row">
+                <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.Articul)</div>
+                <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.PartNumber)</div>
+                <div class="col-lg-2 col-md-2">@Html.DisplayFor(modelItem => item.Category)</div>
+                <div class="col-lg-4 col-md-4">@Html.DisplayFor(modelItem => item.Name)</div>
+                <div class="col-lg-1 col-md-1">@Html.DisplayFor(modelItem => item.Price)</div>
+                <div class="col-lg-1 col-md-1">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.DisplayFor(modelItem => item.Distributor)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                    }
+                </div>
+                <div class="col-lg-2 col-md-2">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
+                    }
+                </div>
             </div>
-            <div class="col-sm-7 col-xs-10">
-                @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
-                {
-                    @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
-                }
-            </div>
+            <hr />
+        }
+        <br />
+        <div class="btn-group">
+            @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key = Model.KeyWord }))
         </div>
-        <hr />
-    }
-    <br />
-    <div class="btn-group">
-        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key = Model.KeyWord }))
     </div>
-</div>
+
+    <div id="positionsContainer" class="container-fluid hidden-lg hidden-md">
+
+        @foreach (var item in Model.Positions)
+        {
+            <div class="row">
+                <div class="col-sm-3 col-xs-5"><strong>Артикул</strong></div>
+                <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Articul)</div>
+                <div class="col-sm-3 col-xs-5"><strong>P/N</strong></div>
+                <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.PartNumber)</div>
+                <div class="col-sm-3 col-xs-5"><strong>Категория</strong></div>
+                <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Category)</div>
+                <div class="col-sm-3 col-xs-5"><strong>Наименование</strong></div>
+                <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Name)</div>
+                <div class="col-sm-3 col-xs-5"><strong>Прайс</strong></div>
+                <div class="col-sm-9 col-xs-7">@Html.DisplayFor(modelItem => item.Price)</div>
+                <div class="col-sm-3 col-xs-5"><strong>Поставщик</strong></div>
+                <div class="col-sm-9 col-xs-7">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.DisplayFor(modelItem => item.Distributor)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Зарегистрироваться", "Register", "Account")
+                    }
+                </div>
+                <div class="col-sm-7 col-xs-10">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                    {
+                        @Html.ActionLink("Добавить к спецификации", "SelectSpecForAdd", "Specifications", new { idPosition = item.Id }, new { @class = "modalindex" })
+                    }
+                </div>
+            </div>
+            <hr />
+        }
+        <br />
+        <div class="btn-group">
+            @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x, key = Model.KeyWord }))
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h4>По вашему запросу не найдено позиций, попробуйте изменить запрос</h4>
+    </div>
+    
+}
+
 
 
 <script>

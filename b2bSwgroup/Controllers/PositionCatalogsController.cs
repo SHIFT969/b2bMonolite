@@ -8,8 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using b2bSwgroup.Models;
+using b2bSwgroup.Models.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Spire.Xls;
+using System.IO;
+using AutoMapper;
+using b2bSwgroup.Models.ModelsForView;
 using PagedList.Mvc;
 using PagedList;
 using System.Text.RegularExpressions;
@@ -28,32 +32,63 @@ namespace b2bSwgroup.Controllers
         }
         private ApplicationContext db = new ApplicationContext();
 
+        private static string setPrice(double price, Currency currency)
+        {
+            string result="";
+            if (currency != null && currency.СultureInfo != "" && currency.СultureInfo != null)
+            {
+                IFormatProvider formatProvider = new System.Globalization.CultureInfo(currency.СultureInfo);
+                result=price.ToString("C", formatProvider);
+            }
+            else
+            {
+                result =  String.Format("{0:##,###.00}", price);
+            }
+
+            return result;
+        }
+
         // GET: PositionCatalogsj
         public async Task<ActionResult> Index(int page=1,string key = "")
         {
+            IEnumerable<PositionCatalogIndexView> positionTest = new List<PositionCatalogIndexView>();
+            if (!Directory.Exists(SearchPositionCatalogService._luceneDir)) Directory.CreateDirectory(SearchPositionCatalogService._luceneDir);
+            if (!System.IO.Directory.EnumerateFiles(SearchPositionCatalogService._luceneDir).Any())
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionCatalogIndexView>().ForMember("Distributor", opt=>opt.MapFrom(c=>c.Distributor.Name))
+                .ForMember("Category",opt=>opt.MapFrom(c=>c.Category.Name))
+                .ForMember("Price",opt=>opt.MapFrom(c=>setPrice(c.Price,c.Currency))));
+
+                SearchPositionCatalogService.AddUpdateLuceneIndex(Mapper.Map<IEnumerable<PositionCatalog>,IEnumerable<PositionCatalogIndexView>>(await db.Positionscatalog
+                    .Include(d=>d.Distributor)
+                    .Include(c=>c.Category)
+                    .Include(c=>c.Currency)
+                    .ToListAsync()));
+            }
+            if (string.IsNullOrEmpty(key))
+            {
+                positionTest = SearchPositionCatalogService.GetAllIndexRecords();
+            }
+            else
+            {
+                positionTest = SearchPositionCatalogService.SearchDefault(key);
+            }
             int pageSize = 10;
-            var positionscatalog = await db.Positionscatalog.Where(x=>x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key))
-                .OrderBy(x=>x.Name)
-                .Skip((page-1)*pageSize)
-                .Take(pageSize)
-                .Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(x => x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key)).Count() };
-            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog,KeyWord=key };
+            //var positionscatalog = await db.Positionscatalog.Where(x=>x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key))
+            //    .OrderBy(x=>x.Name)
+            //    .Skip((page-1)*pageSize)
+            //    .Take(pageSize)
+            //    .Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
+            //PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(x => x.Name.Contains(key) || x.Articul.Contains(key) || x.PartNumber.Contains(key) || x.Distributor.Name.Contains(key)).Count() };
+            //IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog,KeyWord=key };
 
+
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = positionTest.Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionTest.Skip((page - 1) * pageSize).Take(pageSize), KeyWord = key };
+            
             return View(ivm);
-        }
-        
-        public async Task<ActionResult> Search(string key, int page=1)
-        {
-            int pageSize = 10;
-
-            var positionscatalog = await db.Positionscatalog.Where(n => n.Name.Contains(key)).OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize).Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Count() };
-            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog };
-            return View(ivm);
-        }
-
-
+        }        
+      
         // GET: PositionCatalogs/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -92,7 +127,19 @@ namespace b2bSwgroup.Controllers
                 positionCatalog.DistributorApplicationUserId = currentUser.Id;
                 positionCatalog.DistributorId = currentUser.OrganizationId;
                 db.Positionscatalog.Add(positionCatalog);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                    Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionCatalogIndexView>().ForMember("Distributor", opt => opt.MapFrom(c => c.Distributor.Name))
+                      .ForMember("Category", opt => opt.MapFrom(c => c.Category.Name))
+                      .ForMember("Price", opt => opt.MapFrom(c => setPrice(c.Price, c.Currency))));
+                    SearchPositionCatalogService.AddUpdateLuceneIndex(Mapper.Map<PositionCatalog, PositionCatalogIndexView>(positionCatalog));
+                }
+                catch
+                {
+
+                }
+                
                 return RedirectToAction("Index");
             }
 
@@ -130,7 +177,19 @@ namespace b2bSwgroup.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(positionCatalog).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                    Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionCatalogIndexView>().ForMember("Distributor", opt => opt.MapFrom(c => c.Distributor.Name))
+                      .ForMember("Category", opt => opt.MapFrom(c => c.Category.Name))
+                      .ForMember("Price", opt => opt.MapFrom(c => setPrice(c.Price, c.Currency))));
+                    SearchPositionCatalogService.AddUpdateLuceneIndex(Mapper.Map<PositionCatalog, PositionCatalogIndexView>(positionCatalog));
+                }
+                catch
+                {
+
+                }
+                
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", positionCatalog.CategoryId);
@@ -161,7 +220,16 @@ namespace b2bSwgroup.Controllers
         {
             PositionCatalog positionCatalog = await db.Positionscatalog.FindAsync(id);
             db.Positionscatalog.Remove(positionCatalog);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+                SearchPositionCatalogService.ClearLuceneIndexRecord(id);
+            }
+            catch
+            {
+
+            }
+            
             return RedirectToAction("Index");
         }
 
@@ -179,7 +247,19 @@ namespace b2bSwgroup.Controllers
             var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
             var oldPositionsCatalog = await db.Positionscatalog.Where(p => p.DistributorId == currentUser.OrganizationId).ToListAsync();
             db.Positionscatalog.RemoveRange(oldPositionsCatalog);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+                foreach(var pos in oldPositionsCatalog)
+                {
+                    SearchPositionCatalogService.ClearLuceneIndexRecord(pos.Id);
+                }                
+            }
+            catch
+            {
+
+            }
+            
             return RedirectToAction("MyPositions");
         }
 
@@ -191,7 +271,7 @@ namespace b2bSwgroup.Controllers
             int pageSize = 10;
             var positionscatalog = await db.Positionscatalog.Where(a => a.DistributorId == myCompany.Id).OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize).Include(p => p.Category).Include(p => p.Currency).Include(p => p.Distributor).ToListAsync();
             PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItem = db.Positionscatalog.Where(a => a.DistributorId == myCompany.Id).Count() };
-            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Positions = positionscatalog };           
+            MyPositionsViewModel ivm = new MyPositionsViewModel { PageInfo = pageInfo, Positions = positionscatalog };           
             return View(ivm);
         }
         [Authorize(Roles = "Distributor")]
@@ -271,7 +351,19 @@ namespace b2bSwgroup.Controllers
                 }
             }
             db.Positionscatalog.AddRange(catalog);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+                Mapper.Initialize(cfg => cfg.CreateMap<PositionCatalog, PositionCatalogIndexView>().ForMember("Distributor", opt => opt.MapFrom(c => c.Distributor.Name))
+                      .ForMember("Category", opt => opt.MapFrom(c => c.Category.Name))
+                      .ForMember("Price", opt => opt.MapFrom(c => setPrice(c.Price, c.Currency))));
+                SearchPositionCatalogService.AddUpdateLuceneIndex(Mapper.Map<IEnumerable<PositionCatalog>, IEnumerable<PositionCatalogIndexView>>(catalog));
+            }
+            catch
+            {
+
+            }
+            
             return RedirectToAction("MyPositions");
         }
 
